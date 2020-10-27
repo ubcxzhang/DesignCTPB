@@ -14,9 +14,9 @@ library(DesignCTPB)
 
 res <- plot_clinical()
 
-res$plot_alpha # to the 3-d rotatable plot of optimal alpha versus r2 and r3
+res$plot_alpha # to see the 3-d rotatable plot of optimal alpha versus r2 and r3
 
-res$plot_power # to the 3-d rotatable plot of optimal power versus r2 and r3
+res$plot_power # to see the 3-d rotatable plot of optimal power versus r2 and r3
 
 res$opt_r_split
 
