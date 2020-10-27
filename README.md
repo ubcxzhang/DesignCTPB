@@ -8,15 +8,15 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 
 ## How to run in R:
 
-Sys.setenv(RETICULATE_PYTHON='python_path')
+Sys.setenv(RETICULATE_PYTHON='python_path')# Note that please specify one python version here instead of using the default r-reticulate python environment, which may encounter errors
 
 library(DesignCTPB)
 
 res <- plot_clinical()
 
-res$plot_alpha #to the 3-d rotatable plot of optimal alpha versus r2 and r3
+res$plot_alpha # to the 3-d rotatable plot of optimal alpha versus r2 and r3
 
-res$plot_power #to the 3-d rotatable plot of optimal power versus r2 and r3
+res$plot_power # to the 3-d rotatable plot of optimal power versus r2 and r3
 
 res$opt_r_split
 
