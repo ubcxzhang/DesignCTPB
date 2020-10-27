@@ -35,3 +35,4 @@ scipy/numpy/pandas
 3) If any suggestions and problems encountered, please contact us, thanks. 
 
 
+And thanks very much for our package maintainer Belaid, he has done some great jobs. 
