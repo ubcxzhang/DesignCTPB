@@ -1,4 +1,4 @@
-# DesignCTPPB
+# DesignCTPB
 
 This is the immature version of R package for designing clinical trial with potential biomarker effect. We implemented it with GPU computing and smoothing method. 
 
