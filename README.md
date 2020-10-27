@@ -24,7 +24,9 @@ res$opt_alpha_split
 
 res$opt_power
 
-## R dependencies:
+## R Dependencies:
+
+R/4.0.2
 
 reticulate(Package to interface python in R)
 
@@ -32,9 +34,19 @@ mnormt/fields/plotly/dply
 
 ## Python Dependencies:
 
+Python 3.6.3 or later
+
 numba 0.46.0 or later
 
 scipy/numpy/pandas
+
+## GPU Dependency 
+### Note that we develop our package under this cuda version, while we are still testing for other versions
+
+gcc/7.3.0
+
+CUDA 9.2.148
+
 
 ## Notes:
 1) This version is still under development. We are now working on testing the consistency with our original codes.
