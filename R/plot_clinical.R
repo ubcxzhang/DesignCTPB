@@ -4,7 +4,7 @@
 
 
 #' This function is to obtain fig.1 and get the optimal cutoff for the clinical design
-
+#' @export
 
 plot_clinical <- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff){
 

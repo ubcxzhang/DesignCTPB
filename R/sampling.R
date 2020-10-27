@@ -50,6 +50,7 @@ bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
 #OUTPUT:
 ## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
 
+#' @export
 
 power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power){
 
