@@ -48,7 +48,7 @@ bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
 
 #' @export
 
-power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power){
+power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed){
 
   rr <- SQRT(r)
   mat <- rr%*%(1/t(rr))
@@ -62,6 +62,12 @@ power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,powe
   # calculate the mean for the drug effect in each subset
   mean2 <- -base::log(1-bio_effect(r, lower_bio_eff, upper_bio_eff))
   #generate random vectors for sampling
+  if(is.null(seed)){
+    set.seed(98765)
+  }
+  else{
+    set.seed(seed)
+  }
   R1 <- mnormt::rmnorm(n=N1,mean=rep(0,length(r)), varcov=sigma1)
   R2 <- mnormt::rmnorm(n=N2, mean=mean2, varcov=sigma2)
   #call power in power4R.py and calculate the N power values

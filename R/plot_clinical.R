@@ -6,11 +6,11 @@
 #' This function is to obtain fig.1 and get the optimal cutoff for the clinical design
 #' @export
 # the default setting is our weak continuous condition in our paperx
-plot_clinical <- function(m=19,n_dim=3,sd=base::log(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.3){
-
+plot_clinical <- function(m=19,n_dim=3,sd=base::log(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.3, seed=NULL){
+  
   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
   power <- Power_sampling
-  opt_res <- optim_res(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power=power)
+  opt_res <- optim_res(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power=power, seed=seed)
   r_setting <- as.matrix(opt_res[,1:n_dim]); opt_alpha <- as.matrix(opt_res[,(n_dim+1):(2*n_dim)]); opt_power <- opt_res[,NCOL(opt_res)]
   # we only develop for 3-dim right now, but we can easily extend it into higher dimensional case
   if(n_dim == 3){

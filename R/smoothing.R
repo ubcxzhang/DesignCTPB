@@ -25,7 +25,7 @@ smooth_power_alpha <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power)
 
 #' This function is to obtain the optimal results given grid points of r setting
 
-optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power){
+optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, seed=seed){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
   flag_e <- m
@@ -52,7 +52,7 @@ optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power){
   optim_res <- matrix(rep(0,nrow(r_setting)*(n_dim+1)), nrow=nrow(r_setting))
   for(ii in 1:nrow(r_setting)){
     r <- r_setting[ii,]
-    optim_res[ii,] <- smooth_power_alpha(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power)
+    optim_res[ii,] <- smooth_power_alpha(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed)
   }
   Res <- cbind(r_setting, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
  return(Res)
