@@ -40,7 +40,7 @@ numba 0.46.0 or later
 
 scipy/numpy/pandas
 
-## GPU Dependency 
+## GPU and other Dependency 
 ### Note that we develop our package under this cuda version, while we are still testing for other versions
 
 gcc/7.3.0
