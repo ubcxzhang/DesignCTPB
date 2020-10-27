@@ -2,6 +2,7 @@
 
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
+#' @export
 smooth_power_alpha <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power){
   estimate_point <- power_estimate_point(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
