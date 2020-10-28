@@ -6,7 +6,7 @@
 #' This function is to obtain fig.1 and get the optimal cutoff for the clinical design
 #' @export
 # the default setting is our strong continuous condition in our paper
-plot_clinical <- function(m=19,n_dim=3,sd=base::log(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.8, seed=NULL){
+plot_clinical <- function(m=24,n_dim=3,sd=base::log(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.8, seed=NULL){
   
   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
   power <- Power_sampling

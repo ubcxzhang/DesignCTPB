@@ -63,7 +63,7 @@ power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,powe
   mean2 <- -base::log(1-bio_effect(r, lower_bio_eff, upper_bio_eff))
   #generate random vectors for sampling
   if(is.null(seed)){
-    set.seed(98765)
+    set.seed(205851) #  for weak 76605863
   }
   else{
     set.seed(seed)
