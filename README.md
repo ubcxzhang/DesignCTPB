@@ -37,8 +37,8 @@ CUDA 9.2.148
 
 
 ## Notes:
-This package is still under development. Currently we are working on the following two tasks,
-  (1) We are preparing documentation for this package.
-  (2) We are testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
+This package is still under development. Currently we are working on the following two tasks,\
+  (1) preparing documentation for this package.\
+  (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
 
 If any suggestions and problems encountered, please contact us by email Xuekui@UVic.ca. thanks. 
