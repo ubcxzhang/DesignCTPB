@@ -37,9 +37,8 @@ CUDA 9.2.148
 
 
 ## Notes:
-1) This version is still under development. We are now working on testing the consistency with our original codes.
-2) The documentation is also developing right now. And if readers need any documentation to test our package, please contact email: Yitao Lu: yitaolu@uvic.ca/ Belaid: bmoa@uvic.ca. But I hope you could wait untill the formal version is published, thanks for your waiting. 
-3) If any suggestions and problems encountered, please contact us, thanks. 
+This package is still under development. Currently we are working on the following two tasks,
+  (1) We are preparing documentation for this package.
+  (2) We are testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
 
-
-And thanks very much for our package maintainer Belaid, he has done some great jobs. 
+If any suggestions and problems encountered, please contact us by email Xuekui@UVic.ca. thanks. 
