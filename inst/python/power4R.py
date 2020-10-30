@@ -16,7 +16,7 @@ def power_kernel(R1,R2,power):
     #R2 is the sample points for calculating power
     thread_x = cuda.grid(1)
     tx= cuda.threadIdx.x
-    RR2 = cuda.shared.array(shape=(512,3),dtype = nb.float64)
+    RR2 = cuda.shared.array(shape=(512,5),dtype = nb.float64)
     xx = cuda.local.array(shape=5,dtype = nb.float64)
    
     n = R1.shape[1]

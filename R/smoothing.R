@@ -3,22 +3,29 @@
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
 #' @export
-smooth_power_alpha <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power){
-  estimate_point <- power_estimate_point(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power)
+alpha_split <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power,seed=NULL){
+  estimate_point <- power_estimate_point(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
-  Y <- estimate_power ; X1 <- estimate_alpha[,1]; X2 <- estimate_alpha[,2]
-  estimate_model <- fields::Tps(cbind(X1,X2),Y,m = 5)
-  X1.max = X1[which.max(Y)];X2.max = X2[which.max(Y)]
+  Y <- estimate_power 
+  eval(parse(text=paste( paste0("X",1:length(r),"="," estimate_alpha[,",1:length(r), "]",collapse = ";"), sep='')))
+  #X1 <- estimate_alpha[,1]; X2 <- estimate_alpha[,2]
+  estimate_model <- fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(r)-1),collapse = ","), ")",sep=''))),Y,m = 5)
+  eval(parse(text=paste( paste0("X",1:(length(r)-1),".max=","X",1:(length(r)-1),"[which.max(Y)]",collapse = ";"), sep='')))
+  #X1.max = X1[which.max(Y)];X2.max = X2[which.max(Y)]
   y <- function(x){
-    new <- data.frame(X1 = x[1],X2 = x[2])
+    #new <- data.frame(X1=x[1],X2=x[2])
+    x <- t(x)
+    names(x) <- paste("X",1:(length(r)-1), sep='')
+    new <- data.frame(x)
     p =-predict(estimate_model,new)
     return(p)
   }
-
-  est <- stats::optim(c(X1.max, X2.max),y,lower = c(0,0),upper = c(0.025,0.025), method = "L-BFGS-B")
-  alpha3 <- alpha_kernel(c(est$par), r=r,sig.lv = 0.025)
-  res <- t(c(est$par, alpha3, -est$value)); colnames(res) <- c(paste("alpha",1:length(r), sep=''),'power')
+  
+  est <- stats::optim(eval(parse(text=paste( "c(",paste0("X",1:(length(r)-1),".max",collapse = ","), ")",sep='')))
+                      ,y,lower = c(0,0),upper = c(0.025,0.025), method = "L-BFGS-B")
+  alphan <- alpha_kernel(c(est$par), r=r,sig.lv = 0.025)
+  res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("alpha",1:length(r), sep=''),'power')
   return(res)
 }
 
@@ -26,7 +33,7 @@ smooth_power_alpha <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power)
 
 #' This function is to obtain the optimal results given grid points of r setting
 
-optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, seed=seed){
+optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, seed=NULL){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
   flag_e <- m
@@ -53,7 +60,7 @@ optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, se
   optim_res <- matrix(rep(0,nrow(r_setting)*(n_dim+1)), nrow=nrow(r_setting))
   for(ii in 1:nrow(r_setting)){
     r <- r_setting[ii,]
-    optim_res[ii,] <- smooth_power_alpha(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed)
+    optim_res[ii,] <- alpha_split(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed)
   }
   Res <- cbind(r_setting, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
  return(Res)

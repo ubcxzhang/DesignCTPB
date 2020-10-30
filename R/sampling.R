@@ -3,21 +3,31 @@
 #' The Alpha function is to generate valid significant level grid values
 
 Alpha <- function(r, N3){
-  alpha1 <- alpha2 <- 1:100/4000.001
-  alpha_tol <- as.matrix(expand.grid(alpha1=alpha1,alpha2=alpha2))
-  alpha_12 <- split(alpha_tol, row(alpha_tol))
+  n_dim <- length(r)
+  if(n_dim == 3){
+    a <- 1:100/4000.001
+    alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a))
+  }
+  if(n_dim==4){
+    a <- 1:30/1200.001
+    alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a))
+  }
+  
+  alpha_1n <- split(alpha_tol, row(alpha_tol))
   clnum <- parallel::detectCores()
   mc <- getOption("mc.cores", clnum)
-  alpha <- parallel::mclapply(alpha_12,alpha_kernel,r, sig.lv=0.025 ,mc.cores = mc)
-  alpha_tol <- cbind(alpha_tol, rep(0,100^2))
-  for(i in 1:100^2){
+  alpha <- parallel::mclapply(alpha_1n,alpha_kernel,r, sig.lv=0.025 ,mc.cores = mc)
+  alpha_tol <- cbind(alpha_tol, rep(0,(length(a))^(n_dim-1)))
+  for(i in 1:(length(a))^(n_dim-1)){
     if (is.null(alpha[[i]])){
       alpha_tol[i,] <- rep(1,length(r))
-
+      
+      
     }
     else{
-      alpha_tol[i,3] <- alpha[[i]]
-
+      alpha_tol[i,n_dim] <- alpha[[i]]
+      print(i)
+      
     }
   }
   alpha_tol <- alpha_tol[-which(alpha_tol==rep(1,length(r))),]
@@ -25,9 +35,7 @@ Alpha <- function(r, N3){
     alpha <- alpha_tol[sample(2:nrow(alpha_tol),N3),]
   }
   return(alpha)
-
 }
-
 
 
 #OUTPUT:
