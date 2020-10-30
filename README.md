@@ -18,7 +18,7 @@ res$opt_r_split\
 res$opt_alpha_split\
 res$opt_power
 
-### for one-point alpha split
+### for one-point alpha-split
 reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment\
 power <- Power_sampling\
 alpha_slpit(r=c(1,0.4,0.2,0.1), sd=1/sqrt(20), N1=20480, N2=10240, N3=4000, lower_bio_eff=0.1, upper_bio_effect=0.5, power=power, seed=NULL)
