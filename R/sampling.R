@@ -26,7 +26,6 @@ Alpha <- function(r, N3){
     }
     else{
       alpha_tol[i,n_dim] <- alpha[[i]]
-      print(i)
       
     }
   }
