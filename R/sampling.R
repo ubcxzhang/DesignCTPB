@@ -4,6 +4,10 @@
 
 Alpha <- function(r, N3){
   n_dim <- length(r)
+  if(n_dim == 2){
+    a <- 1:100/4000.001
+    alpha_tol <- as.matrix(expand.grid(alpha1=a))
+  }
   if(n_dim == 3){
     a <- 1:100/4000.001
     alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a))
@@ -13,7 +17,7 @@ Alpha <- function(r, N3){
     alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a))
   }
   if(n_dim==5){
-    a <- 1:20/800.001
+    a <- 1:18/720.001
     alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a, alpha4=a))
   }
   alpha_1n <- split(alpha_tol, row(alpha_tol))
@@ -23,19 +27,22 @@ Alpha <- function(r, N3){
   alpha_tol <- cbind(alpha_tol, rep(0,(length(a))^(n_dim-1)))
   for(i in 1:(length(a))^(n_dim-1)){
     if (is.null(alpha[[i]])){
-      alpha_tol[i,] <- rep(1,length(r))
+      alpha_tol[i,] <- rep(1,n_dim)
     }
     else{
       alpha_tol[i,n_dim] <- alpha[[i]]
       
     }
   }
-  alpha_tol <- alpha_tol[-which(alpha_tol==rep(1,length(r))),]
-  if(nrow(alpha_tol)>(N3+1)){
-    alpha <- alpha_tol[sample(2:nrow(alpha_tol),N3),]
+  index <- which(alpha_tol==rep(1,n_dim))
+  if(!setequal(which(alpha_tol==rep(1,n_dim)), integer(0))){
+    alpha_tol <- alpha_tol[-index,]
+  }#for 2-dimensional case there is no 1 vector
+  if(nrow(alpha_tol)>=N3){
+    alpha <- alpha_tol[sample(1:nrow(alpha_tol),N3),]
   }
   return(alpha)
-}
+} 
 
 
 #OUTPUT:
