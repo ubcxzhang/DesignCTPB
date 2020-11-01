@@ -12,7 +12,10 @@ Alpha <- function(r, N3){
     a <- 1:30/1200.001
     alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a))
   }
-  
+  if(n_dim==5){
+    a <- 1:20/800.001
+    alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a, alpha4=a))
+  }
   alpha_1n <- split(alpha_tol, row(alpha_tol))
   clnum <- parallel::detectCores()
   mc <- getOption("mc.cores", clnum)
@@ -21,8 +24,6 @@ Alpha <- function(r, N3){
   for(i in 1:(length(a))^(n_dim-1)){
     if (is.null(alpha[[i]])){
       alpha_tol[i,] <- rep(1,length(r))
-      
-      
     }
     else{
       alpha_tol[i,n_dim] <- alpha[[i]]

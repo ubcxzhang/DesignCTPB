@@ -21,7 +21,7 @@ constraint <- function(alpha_x,alpha_1n,r, sig.lv){
   mat <- r%*%(1/t(r))
   mat[upper.tri(mat)]<- mat[lower.tri(mat)]
   corr <- mat
-  return(1 - mnormt::pmnorm(x = c(stats::qnorm(1-alpha_1n),stats::qnorm(1-alpha_x)), mean = rep(0,length(r)), varcov = corr)[1]-sig.lv)
+  return(1 - mvtnorm::pmvnorm(upper  = c(stats::qnorm(1-alpha_1n),stats::qnorm(1-alpha_x)), mean = rep(0,length(r)), corr = corr)[1]-sig.lv)
 }
 
 
