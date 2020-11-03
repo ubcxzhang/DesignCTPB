@@ -1,6 +1,7 @@
 # DesignCTPB
 
-This is the immature version of R package for designing clinical trial with potential biomarker effect, which is only temporarily workable for calculating 3-dimension r-split cases and up to 4-dimension alpha-split cases. We implemented it with GPU computing and smoothing method(thin plate spline). 
+This is the immature version of R package for designing clinical trial with potential biomarker effect, which is only temporarily workable for calculating 3-dimension r-split cases and up to 5-dimension alpha-split cases. We implemented it with GPU computing and smoothing method(thin plate spline). \
+In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. \
 
 ## How to install in R:
 

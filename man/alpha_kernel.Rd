@@ -6,13 +6,6 @@
 \usage{
 alpha_kernel(alpha_tol, r, sig.lv)
 }
-\arguments{
-\item{alpha_tol}{given the vector of significant level for the full to (n-1)-th sub-population}
-
-\item{r}{the proportion for each sub-population, r_1 is 1}
-
-\item{sig.lv}{significant level for hypothesis testing, usually 0.025 for 2-side test}
-}
 \description{
 The function is calculating the significant level for the n-th sub-population subject to the constraint function
 }
