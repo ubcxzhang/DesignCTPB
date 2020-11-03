@@ -20,6 +20,7 @@ Alpha <- function(r, N3){
     a <- 1:18/720.001
     alpha_tol <- as.matrix(expand.grid(alpha1=a,alpha2=a, alpha3=a, alpha4=a))
   }
+  
   alpha_1n <- split(alpha_tol, row(alpha_tol))
   clnum <- parallel::detectCores()
   mc <- getOption("mc.cores", clnum)
@@ -63,11 +64,13 @@ bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
 
 #' @export
 
-power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed){
+power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed){
 
-  rr <- SQRT(r)
+  rr <- base::sqrt(r)
+  n_dim <- length(r)
   mat <- rr%*%(1/t(rr))
-  mat[upper.tri(mat)]<- mat[lower.tri(mat)]
+  mat[upper.tri(mat)]<- t(mat)[upper.tri(mat)]
+  diag(mat) <- rep(1, n_dim)
   sigma1 <- mat
   ss <- sd * (1/rr)
   sigma2 <- diag(ss)%*%sigma1%*%diag(ss)
