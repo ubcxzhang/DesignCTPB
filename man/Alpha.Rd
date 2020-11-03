@@ -6,11 +6,6 @@
 \usage{
 Alpha(r, N3)
 }
-\arguments{
-\item{r}{the proportion for each sub-population, r_1 is 1}
-
-\item{N3}{the number of grid point for the sig.lv}
-}
 \description{
 The Alpha function is to generate valid significant level grid values
 }

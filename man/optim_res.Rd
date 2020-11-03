@@ -5,35 +5,17 @@
 \title{This function is to obtain the optimal results given grid points of r setting}
 \usage{
 optim_res(
-  m = 19,
-  n_dim = 3,
-  sd = 1/base::sqrt(20),
-  N1 = 20480,
-  N2 = 10240,
-  N3 = 2000,
+  m,
+  n_dim,
+  sd,
+  N1,
+  N2,
+  N3,
   lower_bio_eff,
   upper_bio_eff,
-  power
+  power,
+  seed = NULL
 )
-}
-\arguments{
-\item{m}{the number of points for r setting in each dimension}
-
-\item{n_dim}{the number of dimension}
-
-\item{sd}{the prior information of standard deviation for formula 11}
-
-\item{N1}{Monte Carlo setting for calculating the density function f(Delta)}
-
-\item{N2}{Monte Carlo setting for calculating the multivariate normal distribution in formula 1}
-
-\item{N3}{the number of grid point for the sig.lv}
-
-\item{upper_bio_eff}{the limit bio-marker effect when r approaches 0}
-
-\item{power}{python function to estimate power}
-
-\item{low_bio_eff}{the bio-marker effect for the full population}
 }
 \description{
 This function is to obtain the optimal results given grid points of r setting

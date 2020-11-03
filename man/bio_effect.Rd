@@ -6,13 +6,6 @@
 \usage{
 bio_effect(r, lower_bio_eff, upper_bio_eff)
 }
-\arguments{
-\item{r}{the proportion for each sub-population, r_1 is 1}
-
-\item{upper_bio_eff}{the limit bio-marker effect when r approaches 0}
-
-\item{low_bio_eff}{the bio-marker effect for the full population}
-}
 \description{
 This function if to calculate the drug effect in each sub-population given the proportion
 }

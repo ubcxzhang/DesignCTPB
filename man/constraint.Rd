@@ -4,16 +4,7 @@
 \alias{constraint}
 \title{The constraint function of significant level, typically is 0.025 for 2-side test}
 \usage{
-constraint(alpha_x, alpha_1n, r, sig.lv = 0.025)
-}
-\arguments{
-\item{alpha_x}{sig.lv for the n-th sub-population}
-
-\item{alpha_1n}{vector of sig.lv for the full to (n-1)-th sub-population}
-
-\item{r}{the proportion for each sub-population, r_1 is 1}
-
-\item{sig.lv}{significant level for hypothesis testing, usually 0.025 for 2-side test}
+constraint(alpha_x, alpha_1n, r, sig.lv)
 }
 \description{
 The constraint function of significant level, typically is 0.025 for 2-side test
