@@ -1,7 +1,7 @@
 # DesignCTPB
 
 This is the immature version of R package for designing clinical trial with potential biomarker effect, which is only temporarily workable for calculating 3-dimension r-split cases and up to 5-dimension alpha-split cases. We implemented it with GPU computing and smoothing method(thin plate spline). \
-In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. \
+In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. 
 
 ## How to install in R:
 
@@ -23,7 +23,8 @@ res$opt_power
 reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment\
 power <- Power_sampling\
 alpha_slpit(r=c(1,0.4,0.2,0.1), sd=1/sqrt(20), N1=20480, N2=10240, N3=4000, lower_bio_eff=0.1, upper_bio_effect=0.5, power=power, seed=NULL)
-
+#### Note for selection of N3
+It's still under developing for a better selcetion of N3, which should consider the proportions of each subset.
 
 ## R Dependencies:
 
