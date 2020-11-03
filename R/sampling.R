@@ -64,7 +64,7 @@ bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
 #' @export
 
 power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed){
-
+  n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
   mat[upper.tri(mat)]<- t(mat)[upper.tri(mat)]
