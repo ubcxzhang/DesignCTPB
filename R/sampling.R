@@ -65,9 +65,10 @@ bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
 
 power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed){
 
-  rr <- SQRT(r)
+  rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
-  mat[upper.tri(mat)]<- mat[lower.tri(mat)]
+  mat[upper.tri(mat)]<- t(mat)[upper.tri(mat)]
+  diag(mat) <- rep(1, n_dim)
   sigma1 <- mat
   ss <- sd * (1/rr)
   sigma2 <- diag(ss)%*%sigma1%*%diag(ss)
