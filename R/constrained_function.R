@@ -1,14 +1,5 @@
 ## Constrained function
 
-SQRT<- function(x){
-  sqrt_x <- rep(0,length(x))
-  for(ii in 1:length(x)){
-    sqrt_x[ii] <- base::sqrt(x[ii])
-  }
-  return(sqrt_x)
-}
-
-
 
 
 ##OUTPUT
@@ -17,17 +8,13 @@ SQRT<- function(x){
 #' The constraint function of significant level, typically is 0.025 for 2-side test
 
 constraint <- function(alpha_x,alpha_1n,r, sig.lv){
-  r <- SQRT(r)
-  mat <- r%*%(1/t(r))
-  mat[upper.tri(mat)]<- mat[lower.tri(mat)]
+  rr <- base::sqrt(r)
+  n_dim <- length(r)
+  mat <- rr%*%(1/t(rr))
+  mat[upper.tri(mat)]<- t(mat)[upper.tri(mat)]
+  diag(mat) <- rep(1, n_dim)
   corr <- mat
-  if(length(r)>=4){
-    return(1 - mvtnorm::pmvnorm(upper  = c(stats::qnorm(1-alpha_1n),stats::qnorm(1-alpha_x)), mean = rep(0,length(r)), corr = corr)[1]-sig.lv)
-    
-  }
-  else{
-    return(1 - mvnorm::pmnorm(upper  = c(stats::qnorm(1-alpha_1n),stats::qnorm(1-alpha_x)), mean = rep(0,length(r)), corr = corr)[1]-sig.lv)
-  }
+  return(1 - mnormt::pmnorm(x  = c(stats::qnorm(1-alpha_1n),stats::qnorm(1-alpha_x)), mean = rep(0,length(r)), varcov = corr)[1]-sig.lv)
 }
 
 
