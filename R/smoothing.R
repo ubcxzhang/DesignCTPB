@@ -4,6 +4,10 @@
 
 #' @export
 alpha_split <- function(r=c(1,0.5,0.3),sd=1/base::sqrt(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.8,power,seed=NULL){
+  n_dim <- length(r)
+  if(n_dim>5){
+    stop("Right now, we only support 5 dimension estimation!")
+  }
   estimate_point <- power_estimate_point(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
