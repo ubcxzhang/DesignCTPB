@@ -4,8 +4,8 @@ This is the beta version of R package for designing clinical trial with potentia
   (1) preparing documentation for this package.\
   (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
   
-For fixed settings, this package can solve up to 5-dimension alpha-split problems. This can be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.
-This package also guide the choice of size of nested populations, i.e. the r-values. The function to visualize and optimize r-values only support 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
+For a given setting of input parameters, this package can solve up to 5-dimension alpha-split problems. This can be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.
+This package can also guide the choice of size of nested populations, i.e. find optimal r-values. The function to visualize and optimize r-values only support 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
 
 In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. 
 
