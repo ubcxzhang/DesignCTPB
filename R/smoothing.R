@@ -66,7 +66,7 @@ r_setting <- function(m, n_dim){
 
 #' This function is to obtain the optimal results given grid points of r setting
 
-optim_res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, power, seed){
+Optim_Res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, power, seed){
   r_set <- r_setting(m, n_dim)
   
   if(!is.null(SIGMA)){
@@ -93,7 +93,7 @@ optim_res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linea
     delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
     optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power, seed)
   }
-  Res <- cbind(r_setting, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
+  Res <- cbind(r_set, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
  return(Res)
 }
 

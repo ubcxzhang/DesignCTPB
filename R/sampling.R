@@ -71,7 +71,7 @@ power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power
   # If user dont input the delta for each population, then the default setting is linear
   if(is.null(delta)){
     if(delta_linear_bd[2]>delta_linear_bd[1]){
-      delta <- delta_linear[2]-(delta_linear_bd[2]-delta_linear_bd[1])*r
+      delta <- delta_linear_bd[2]-(delta_linear_bd[2]-delta_linear_bd[1])*r
     }
     else{
       stop("Input error of upper bound and lower bound of biomarker effect!")
