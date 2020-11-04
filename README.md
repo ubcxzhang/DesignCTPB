@@ -1,7 +1,15 @@
 # DesignCTPB
 
-This is the immature version of R package for designing clinical trial with potential biomarker effect, which is only temporarily workable for calculating 3-dimension r-split cases and up to 5-dimension alpha-split cases. We implemented it with GPU computing and smoothing method(thin plate spline). \
-In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. 
+This is the beta version of R package for designing clinical trial with potential biomarker effect. Currently we are working on the following two tasks,\
+  (1) preparing documentation for this package.\
+  (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
+  
+For fixed settings, this package can solve up to 5-dimension alpha-split problems. This can be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.
+This package also guide the choice of size of nested populations, i.e. the r-values. The function to visualize and optimize r-values only support 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.\
+
+In our package, we restrict to user's personalized input at this stage. For example, the user can only specify the variance of drug effect's prior distribution by setting "sd" in the input value. But as developing, we will consider more flexibility for users. \
+
+We implemented it with GPU computing and smoothing method(thin plate spline). 
 
 ## How to install in R:
 
@@ -45,9 +53,4 @@ gcc/7.3.0\
 CUDA 9.2.148
 
 
-## Notes:
-This package is still under development. Currently we are working on the following two tasks,\
-  (1) preparing documentation for this package.\
-  (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
 
-If any suggestions and problems encountered, please contact us by email Xuekui@UVic.ca. thanks. 
