@@ -7,14 +7,16 @@
 optim_res(
   m,
   n_dim,
-  sd,
   N1,
   N2,
   N3,
-  lower_bio_eff,
-  upper_bio_eff,
+  E,
+  SIGMA,
+  sd_full,
+  DELTA,
+  delta_linear_bd,
   power,
-  seed = NULL
+  seed
 )
 }
 \description{

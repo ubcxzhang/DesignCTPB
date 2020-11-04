@@ -2,4 +2,4 @@
 
 export(alpha_split)
 export(design_ctpb)
-export(power_estimate_point)
+export(r_setting)

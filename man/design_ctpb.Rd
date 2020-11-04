@@ -7,12 +7,14 @@
 design_ctpb(
   m = 24,
   n_dim = 3,
-  sd = base::log(20),
   N1 = 20480,
   N2 = 10240,
   N3 = 2000,
-  lower_bio_eff = 0.2,
-  upper_bio_eff = 0.8,
+  E = NULL,
+  SIGMA = NULL,
+  sd_full = 1/base::sqrt(20),
+  DELTA = NULL,
+  delta_linear_bd = c(0.2, 0.8),
   seed = NULL
 )
 }
