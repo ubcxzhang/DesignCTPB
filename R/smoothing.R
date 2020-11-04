@@ -3,7 +3,7 @@
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
 #' @export
-alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),power,seed=NULL){
+alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),power=NULL,seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")

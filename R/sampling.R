@@ -102,7 +102,10 @@ power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power
   else{
     It <- E/4
   }
-  
+  if(power==NULL){
+    reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
+    power <- Power_sampling
+  }
   pp <- power(R1,R2,r,It,alpha)
   return(list(alpha=alpha, power=pp))
 }
