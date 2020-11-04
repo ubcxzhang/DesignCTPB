@@ -1,5 +1,4 @@
 #SAMPLING FUNCTION'
-
 #' The Alpha function is to generate valid significant level grid values
 
 Alpha <- function(r, N3){
@@ -46,38 +45,44 @@ Alpha <- function(r, N3){
 } 
 
 
-#OUTPUT:
-# the drug effect given fixed proportion
-
-#' This function if to calculate the drug effect in each sub-population given the proportion
-#'
-
-
-bio_effect <- function(r, lower_bio_eff, upper_bio_eff){
-  return((lower_bio_eff-upper_bio_eff)*r+upper_bio_eff)
-}
 
 
 #Estimate the power for N3 alpha, given fixed r
 #OUTPUT:
 ## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
 
-#' @export
-
-power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed){
+power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power,seed){
   n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
   mat[upper.tri(mat)]<- t(mat)[upper.tri(mat)]
   diag(mat) <- rep(1, n_dim)
   sigma1 <- mat
-  ss <- sd * (1/rr)
-  sigma2 <- diag(ss)%*%sigma1%*%diag(ss)
+  #verify n_dim == length(sig)==length(delta)
+  if((!is.null(sig))&&(n_dim!=length(sig))){
+    stop("Length of sig not coincides with the dimension!")
+  }
+  if((!is.null(delta))&&(n_dim!=length(delta))){
+    stop("Length of delta not coincides with the dimension!")
+  }
+  if(is.null(sig)){
+    sig <- sd_full*(1/rr)
+  }
+  # If user dont input the delta for each population, then the default setting is linear
+  if(is.null(delta)){
+    if(delta_linear_bd[2]>delta_linear_bd[1]){
+      delta <- delta_linear[2]-(delta_linear_bd[2]-delta_linear_bd[1])*r
+    }
+    else{
+      stop("Input error of upper bound and lower bound of biomarker effect!")
+    }
+  }
+  sigma2 <- diag(sig)%*%sigma1%*%diag(sig)
 
 
   #overall drug effect = lower_bio_eff
   # calculate the mean for the drug effect in each subset
-  mean2 <- -base::log(1-bio_effect(r, lower_bio_eff, upper_bio_eff))
+  mean2 <- -base::log(1-delta)
   #generate random vectors for sampling
   if(is.null(seed)){
     set.seed(205851) #  for weak 76605863
@@ -85,16 +90,18 @@ power_estimate_point <- function(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,powe
   else{
     set.seed(seed)
   }
-  R1 <- mnormt::rmnorm(n=N1,mean=rep(0,length(r)), varcov=sigma1)
+  R1 <- mnormt::rmnorm(n=N1,mean=rep(0,n_dim), varcov=sigma1)
   R2 <- mnormt::rmnorm(n=N2, mean=mean2, varcov=sigma2)
   #call power in power4R.py and calculate the N power values
   alpha <- Alpha(r,N=N3)
-  It <- (stats::qnorm(0.975)+stats::qnorm(0.9))^2/base::log(1-lower_bio_eff)^2
-
-  #base::sink("py_configuration.txt")
-  #print(reticulate::py_config())
-  #print(reticulate::py_run_file(system.file("python","version.py",package="DesignCTBP")))
-  #base::sink()
+  # If user denote the number of events, then the information units in the algorithm should be E/4, 
+  # else we estimate it by the following 
+  if(E==NULL){
+    It <- (stats::qnorm(0.975)+stats::qnorm(0.9))^2/base::log(1-delta[1])^2
+  }
+  else{
+    It <- E/4
+  }
   
   pp <- power(R1,R2,r,It,alpha)
   return(list(alpha=alpha, power=pp))

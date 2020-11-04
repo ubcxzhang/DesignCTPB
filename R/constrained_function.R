@@ -29,3 +29,4 @@ alpha_kernel <- function(alpha_tol,r, sig.lv){
     return(alpha_x)
   }
 }
+

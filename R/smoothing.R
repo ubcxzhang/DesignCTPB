@@ -3,12 +3,12 @@
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
 #' @export
-alpha_split <- function(r=c(1,0.5,0.3),sd=1/base::sqrt(20),N1=20480,N2=10240,N3=2000,lower_bio_eff=0.2, upper_bio_eff=0.8,power,seed=NULL){
+alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),power,seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
-    stop("Right now, we only support 5 dimension estimation!")
+    stop("Right now, we only support 5 dimension alpha-split!")
   }
-  estimate_point <- power_estimate_point(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power,seed)
+  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,power,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
@@ -34,10 +34,9 @@ alpha_split <- function(r=c(1,0.5,0.3),sd=1/base::sqrt(20),N1=20480,N2=10240,N3=
 }
 
 
-
-#' This function is to obtain the optimal results given grid points of r setting
-
-optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, seed=NULL){
+#' This function is to decide the r setting given specific density in each dimension
+#' @export
+r_setting <- function(m, n_dim){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
   flag_e <- m
@@ -50,7 +49,7 @@ optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, se
     nrow_rsetting <- nrow(r_setting)
     extend_index <- rep(1:len_rx, times = c(1:len_rx))
     r_setting.extend <- r_setting[extend_index,]
-
+    
     rx_extend_index <- rep(0,length(extend_index))
     for(kk in 1:len_rx){
       rx_extend_index[which(extend_index == kk)] <- 1:kk
@@ -61,10 +60,38 @@ optim_res<- function(m,n_dim,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff, power, se
     flag_s <- flag_s - 1; flag_e <- flag_e - 1
   }
   colnames(r_setting) <- c(paste("r",1:n_dim, sep=''))
-  optim_res <- matrix(rep(0,nrow(r_setting)*(n_dim+1)), nrow=nrow(r_setting))
-  for(ii in 1:nrow(r_setting)){
-    r <- r_setting[ii,]
-    optim_res[ii,] <- alpha_split(r,sd,N1,N2,N3,lower_bio_eff, upper_bio_eff,power, seed=seed)
+  return(r_setting)
+}
+
+
+#' This function is to obtain the optimal results given grid points of r setting
+
+optim_res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, power, seed){
+  r_set <- r_setting(m, n_dim)
+  
+  if(!is.null(SIGMA)){
+    if(ncol(SIGMA)!=n_dim){
+      stop("The dimension of inputed SIGMA not coincides with dimension!")
+    }
+    if(nrow(SIGMA)!=nrow(r_set)){
+      stop("The inputed SIGMA not coincides with r_set! Plz check with r_setting(m,n_dim) and decide each sig for each r setting.")
+    }
+  }
+  if(!is.null(DELTA)){
+    if(ncol(DELTA)!=n_dim){
+      stop("The dimension of inputed DELTA not coincides with dimension!")
+    }
+    if(nrow(DELTA)!=nrow(r_set)){
+      stop("The inputed DELTA not coincides with r_set! Plz check with r_setting(m,n_dim) and decide each delta for each r setting.")
+    }
+  }
+  
+  optim_res <- matrix(rep(0,nrow(r_set)*(n_dim+1)), nrow=nrow(r_set))
+  for(ii in 1:nrow(r_set)){
+    r <- r_set[ii,]
+    sig <- SIGMA[ii,]# If SIGMA is null then sig is null too, else sig is the user specified value
+    delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
+    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power, seed)
   }
   Res <- cbind(r_setting, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
  return(Res)
