@@ -96,13 +96,13 @@ power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power
   alpha <- Alpha(r,N=N3)
   # If user denote the number of events, then the information units in the algorithm should be E/4, 
   # else we estimate it by the following 
-  if(E==NULL){
+  if(is.null(E)){
     It <- (stats::qnorm(0.975)+stats::qnorm(0.9))^2/base::log(1-delta[1])^2
   }
   else{
     It <- E/4
   }
-  if(power==NULL){
+  if(is.null(power)){
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
     power <- Power_sampling
   }
