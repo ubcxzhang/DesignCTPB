@@ -27,7 +27,9 @@ res$opt_power
 
 The default inputs give the results of the strong biomarker effect in our paper. It's no practical meaning to conduct nested-population clinical trails of no biomarker effect, so the no biomarker effect example in our paper can be obtained like: (link)
 
-In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting.(e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting). For obtaining the r-split setting, user can specify it personalized or follow our r_setting(m,n_dim) function. 
+In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting. \
+  (e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting).\
+For obtaining the r-split setting, user can specify it personalized or follow our r_setting(m,n_dim) function. 
 
 ### for one-point alpha-split
 reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) \
