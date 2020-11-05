@@ -6,6 +6,7 @@
 \usage{
 design_ctpb(
   m = 24,
+  r_set = NULL,
   n_dim = 3,
   N1 = 20480,
   N2 = 10240,

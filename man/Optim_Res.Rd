@@ -6,6 +6,7 @@
 \usage{
 Optim_Res(
   m,
+  r_set,
   n_dim,
   N1,
   N2,
@@ -15,7 +16,7 @@ Optim_Res(
   sd_full,
   DELTA,
   delta_linear_bd,
-  power,
+  Power,
   seed
 )
 }
