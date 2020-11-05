@@ -4,7 +4,7 @@ This is the beta version of R package for designing clinical trial with potentia
   (1) preparing documentation for this package.\
   (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
   
-For a given setting of input parameters, this package can solve up to 5-dimension alpha-split problems. This can also be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.
+For a given setting of input parameters, this package can solve up to 5-dimension alpha-split problems. This can also be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.\
 This package can also guide the choice of size of nested populations, i.e. find optimal r-values. The function visualizes and optimizes r-values, but only supports 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
 
 We implemented it with GPU computing and smoothing method(thin plate spline). 
@@ -30,8 +30,8 @@ The default inputs give the results of the strong biomarker effect in our paper.
 In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting.(e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting). For obtaining the r-split setting, user can specify it personalized or follow our r_setting(m,n_dim) function. 
 
 ### for one-point alpha-split
-reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment\
-Power <- Power_sampling\
+reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) \
+Power <- Power_sampling # source python4R.py into the environment, only need to source one time if you need to run alpha_split() many times. \
 alpha_slpit(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),Power=Power,seed=NULL)
 #### Note for selection of N3
 It's still under developing for a better selcetion of N3, which should consider the proportions of each subset.
