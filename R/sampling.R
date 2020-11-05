@@ -51,7 +51,7 @@ Alpha <- function(r, N3){
 #OUTPUT:
 ## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
 
-power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power,seed){
+power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,Power,seed){
   n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
@@ -102,11 +102,11 @@ power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power
   else{
     It <- E/4
   }
-  if(is.null(power)){
+  if(is.null(Power)){
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
-    power <- Power_sampling
+    Power <- Power_sampling
   }
-  pp <- power(R1,R2,r,It,alpha)
+  pp <- Power(R1,R2,r,It,alpha)
   return(list(alpha=alpha, power=pp))
 }
 

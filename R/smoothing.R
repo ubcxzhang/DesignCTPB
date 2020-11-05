@@ -3,12 +3,12 @@
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
 #' @export
-alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),power=NULL,seed=NULL){
+alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),Power=NULL,seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
-  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,power,seed)
+  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,Power,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
@@ -66,7 +66,7 @@ r_setting <- function(m, n_dim){
 
 #' This function is to obtain the optimal results given grid points of r setting
 
-Optim_Res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, power, seed){
+Optim_Res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, Power, seed){
   r_set <- r_setting(m, n_dim)
   
   if(!is.null(SIGMA)){
@@ -91,7 +91,7 @@ Optim_Res<- function(m, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linea
     r <- r_set[ii,]
     sig <- SIGMA[ii,]# If SIGMA is null then sig is null too, else sig is the user specified value
     delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
-    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,power, seed)
+    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,Power, seed)
   }
   Res <- cbind(r_set, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
  return(Res)
