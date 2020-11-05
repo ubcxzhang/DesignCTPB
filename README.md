@@ -25,7 +25,7 @@ res$opt_r_split\
 res$opt_alpha_split\
 res$opt_power
 
-**The default inputs give the results of the strong biomarker effect in our paper. It's no practical meaning to conduct nested-population clinical trails of no biomarker effect, so the no biomarker effect example in our paper can be obtained like**: (link)
+**The default inputs give the results of the strong biomarker effect in our paper. There is no practical meaning to conduct nested-population clinical trails of no biomarker effect, so the no biomarker effect example in our paper can be obtained like**: (link)
 
 In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting. \
   *<font face = "Times New Roman">(e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting).</font>*\
