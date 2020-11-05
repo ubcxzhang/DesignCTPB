@@ -14,7 +14,7 @@ alpha_split(
   sd_full = 1/base::sqrt(20),
   delta = NULL,
   delta_linear_bd = c(0.2, 0.8),
-  power = NULL,
+  Power = NULL,
   seed = NULL
 )
 }
