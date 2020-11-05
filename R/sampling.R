@@ -45,13 +45,15 @@ Alpha <- function(r, N3){
 } 
 
 
-
-
-#Estimate the power for N3 alpha, given fixed r
 #OUTPUT:
 ## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
 
-power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,Power,seed){
+
+#' Estimate the power for N3 alpha, given fixed r
+#' @export
+
+
+power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,Power=NULL,seed=NULL){
   n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
@@ -70,11 +72,11 @@ power_estimator <- function(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,Power
   }
   # If user dont input the delta for each population, then the default setting is linear
   if(is.null(delta)){
-    if(delta_linear_bd[2]>delta_linear_bd[1]){
+    if(delta_linear_bd[2]>=delta_linear_bd[1]){
       delta <- delta_linear_bd[2]-(delta_linear_bd[2]-delta_linear_bd[1])*r
     }
     else{
-      stop("Input error of upper bound and lower bound of biomarker effect!")
+      stop("Input error of upper bound and lower bound of linear biomarker effect!")
     }
   }
   sigma2 <- diag(sig)%*%sigma1%*%diag(sig)
