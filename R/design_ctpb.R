@@ -16,10 +16,10 @@ design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000
   if(n_dim == 3){
     r2 <- r_setting[,2];r3 <- r_setting[,3]; opt_alpha1 <- opt_alpha[,1]; opt_alpha2 <- opt_alpha[,2];opt_alpha3 <- opt_alpha[,3]
     data1<- data.frame(alpha1 = opt_alpha1, r2 =r2, r3=r3 ); data2 <- data.frame(alpha2 = opt_alpha2, r2 =r2, r3=r3 ); data3 <- data.frame(alpha3 = opt_alpha3, r2 =r2, r3=r3 )
-    model.p <- fields::Tps(cbind(r2,r3), opt_power, m=4)
-    model.a1 <- fields::Tps(cbind(r2,r3), opt_alpha1, m=4)
-    model.a2 <- fields::Tps(cbind(r2,r3), opt_alpha2, m=4)
-    model.a3 <- fields::Tps(cbind(r2,r3), opt_alpha3, m=4)
+    model.p <- suppressWarnings(fields::Tps(cbind(r2,r3), opt_power, m=4))
+    model.a1 <- suppressWarnings(fields::Tps(cbind(r2,r3), opt_alpha1, m=4))
+    model.a2 <- suppressWarnings(fields::Tps(cbind(r2,r3), opt_alpha2, m=4))
+    model.a3 <- suppressWarnings(fields::Tps(cbind(r2,r3), opt_alpha3, m=4))
     #power
     f.p = function(x,y){
       new=data.frame(r2=x,r3=y)
