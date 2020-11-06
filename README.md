@@ -20,8 +20,6 @@ Sys.setenv(RETICULATE_PYTHON='python_path')# *<font face = "Times New Roman">Not
 library(DesignCTPB)
 
 ### Calculating optimal alpha-split for a given setting of input parameters
-reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) \
-Power <- Power_sampling # *<font face = "Times New Roman">source python4R.py into the environment, only need to source one time if you need to run alpha_split() many times.</font>* \
 alpha_slpit(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),Power=Power,seed=NULL)
 
 ### Calculating optimal alpha-split for many settings of r values (i.e. size of nested subpopulations), and visualize their results and calculate optimal choice of r values
