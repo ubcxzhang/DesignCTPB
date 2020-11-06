@@ -8,11 +8,13 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
+  a <- r 
   if(is.null(Power)){
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
     Power <- Power_sampling
   }
-  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,Power,seed)
+  r <- a
+  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,Power=Power,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
