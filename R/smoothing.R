@@ -8,7 +8,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
-  a <- r
+  a <- r 
   if(is.null(Power)){
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
     Power <- Power_sampling
@@ -20,7 +20,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   Y <- estimate_power 
   eval(parse(text=paste( paste0("X",1:length(r),"="," estimate_alpha[,",1:length(r), "]",collapse = ";"), sep='')))
   #X1 <- estimate_alpha[,1]; X2 <- estimate_alpha[,2]
-  estimate_model <- fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(r)-1),collapse = ","), ")",sep=''))),Y,m = 5)
+  estimate_model <- suppressWarnings(fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(r)-1),collapse = ","), ")",sep=''))),Y,m = 5))
   eval(parse(text=paste( paste0("X",1:(length(r)-1),".max=","X",1:(length(r)-1),"[which.max(Y)]",collapse = ";"), sep='')))
   #X1.max = X1[which.max(Y)];X2.max = X2[which.max(Y)]
   y <- function(x){
