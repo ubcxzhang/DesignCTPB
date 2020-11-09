@@ -16,7 +16,7 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 ## How to run in R:
 
 ### Setting Python environment and load package
-Sys.setenv(RETICULATE_PYTHON='python_path')# *<font face = "Times New Roman">Note that please specify one python version here instead of using the default r-reticulate python environment, which may encounter errors.</font>*\
+Sys.setenv(RETICULATE_PYTHON=<python_path_with_module_numba>)# *<font face = "Times New Roman">Note that please specify one python version here instead of using the default r-reticulate python environment, which may encounter errors.</font>*\
 library(DesignCTPB)
 
 ### Calculating optimal alpha-split for a given setting of input parameters
