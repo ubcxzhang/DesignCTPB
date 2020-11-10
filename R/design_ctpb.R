@@ -10,7 +10,7 @@ design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000
   
   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
   Power <- Power_sampling
-  opt_res <- Optim_Res(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, power, seed)
+  opt_res <- Optim_Res(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, Power, seed)
   r_setting <- as.matrix(opt_res[,1:n_dim]); opt_alpha <- as.matrix(opt_res[,(n_dim+1):(2*n_dim)]); opt_power <- opt_res[,NCOL(opt_res)]
   # we only develop for 3-dim right now, but we can easily extend it into higher dimensional case
   if(n_dim == 3){
