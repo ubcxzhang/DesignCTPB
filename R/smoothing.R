@@ -73,12 +73,14 @@ r_setting <- function(m, n_dim){
 #' This function is to obtain the optimal results given grid points of r setting
 
 Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, Power, seed){
-  if(is.null(r_set)){
+  if(!is.null(r_set)){
     if(ncol(r_set)!=n_dim){
       stop("The dimension of inputed r_set not coincides with dimension!")
     }
-    r_set <- r_setting(m, n_dim)
   }
+  if(is.null(r_set)){
+     r_set <- r_setting(m, n_dim)
+    }
   if(!is.null(SIGMA)){
     if(ncol(SIGMA)!=n_dim){
       stop("The dimension of inputed SIGMA not coincides with dimension!")
