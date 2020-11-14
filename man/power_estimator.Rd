@@ -14,7 +14,6 @@ power_estimator(
   sd_full,
   delta = NULL,
   delta_linear_bd,
-  Power = NULL,
   seed = NULL
 )
 }

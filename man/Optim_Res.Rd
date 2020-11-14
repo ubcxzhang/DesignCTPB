@@ -16,7 +16,6 @@ Optim_Res(
   sd_full,
   DELTA,
   delta_linear_bd,
-  Power,
   seed
 )
 }
