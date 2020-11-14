@@ -1,0 +1,59 @@
+---
+title: "guide for package DesignCTPB"
+author: "Yitao Lu, Belaid, Xuekui Zhang"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{DesignCTPB}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+#Introduction
+As a future trend of health care, personalized medicine tailors medical treatments to individual patients. It requires to identify a subset of patients with the best response to treatment. The subset can be defined by a biomarker (e.g. expression of a gene) and its cutoff value. However, designing clinical trials that utilize the discovered uncertain subsets/biomarkers is not trivial and rarely discussed in the literature. 
+
+And we formulate the problem of clinical trial design into an optimization problem involving high-dimensional integration, and propose a novel computational solution based on Monte-Carlo and smoothing methods.  Our method utilizes the modern techniques of General-Purpose computing on Graphics Processing Units for large-scale parallel computing. Compared to a published method in three-dimensional problems, our approach is more accurate and 133 times faster. This advantage increases when dimensionality increases.  Our method is scalable to higher-dimensional problems since the precision bound of our estimated study power is a finite number not affected by dimensionality.
+
+This package can guide researchers to do clinical trials with nested population effect. 
+
+
+
+```{r library, echo = T, results = 'hide', warning=FALSE, message=FALSE}
+library(DesignCTPB)
+```
+
+## set up the python environment and the check the required modules 
+```{r set up environment, message=FALSE}
+
+create_venv("yt_numba") # one can specify any python path 
+py_initial("yt_numba")
+```
+
+## Calculating optimal alpha-split for a given setting of input parameters
+```{r alpha_split, warning=FALSE}
+alpha_split()# the default setting will give an optimal results of 3-dimensional case
+```
+
+
+## Calculating optimal alpha-split for many settings of r values (i.e. size of nested subpopulations), and visualize their results and calculate optimal choice of r values
+```{r visulization, eval=FALSE, warning=FALSE, include=FALSE}
+res <- design_ctpb(m=24, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL)
+res$plot_alpha # to see the 3-d rotatable plot of optimal alpha versus r2 and r3.
+res$plot_power # to see the 3-d rotatable plot of optimal power versus r2 and r3.
+res$opt_r_split
+res$opt_alpha_split
+res$opt_power
+```
+
+Results for the rotatable plot can refer to:
+
+Fitted TPS Surface of the optimal power : http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.6 
+
+Fitted TPS Surface of the optimal alpha : http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.5
+

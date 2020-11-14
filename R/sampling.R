@@ -44,7 +44,6 @@ Alpha <- function(r, N3){
   return(alpha)
 } 
 
-
 #OUTPUT:
 ## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
 
@@ -53,7 +52,7 @@ Alpha <- function(r, N3){
 #' @export
 
 
-power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,Power=NULL,seed=NULL){
+power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
   n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))
@@ -80,8 +79,8 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
     }
   }
   sigma2 <- diag(sig)%*%sigma1%*%diag(sig)
-
-
+  
+  
   #overall drug effect = lower_bio_eff
   # calculate the mean for the drug effect in each subset
   mean2 <- -base::log(1-delta)
@@ -104,12 +103,14 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   else{
     It <- E/4
   }
-  if(is.null(Power)){
-    stop("Please source python4R.py first!")
-  }
-  pp <- Power(R1,R2,r,It,alpha)
+  
+  # a <- r
+  # if(is.null(Power)){
+  #   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
+  #   Power <- Power_sampling
+  # }
+  # a <- r
+  pp <- Power.sampling(R1,R2,r,It,alpha)
+  
   return(list(alpha=alpha, power=pp))
 }
-
-
-

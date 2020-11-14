@@ -3,18 +3,12 @@
 #' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
 
 #' @export
-alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),Power=NULL,seed=NULL){
+alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
-  a <- r 
-  if(is.null(Power)){
-    reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
-    Power <- Power_sampling
-  }
-  r <- a
-  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,Power=Power,seed)
+  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
@@ -35,10 +29,9 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   est <- stats::optim(eval(parse(text=paste( "c(",paste0("X",1:(length(r)-1),".max",collapse = ","), ")",sep='')))
                       ,y,lower = c(0,0),upper = c(0.025,0.025), method = "L-BFGS-B")
   alphan <- alpha_kernel(c(est$par), r=r,sig.lv = 0.025)
-  res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("alpha",1:length(r), sep=''),'power')
+  res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("opt-alpha",1:length(r), sep=''),'opt-power')
   return(res)
 }
-
 
 #' This function is to decide the r setting given specific density in each dimension
 #' @export
@@ -72,15 +65,15 @@ r_setting <- function(m, n_dim){
 
 #' This function is to obtain the optimal results given grid points of r setting
 
-Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, Power, seed){
+Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, seed){
   if(!is.null(r_set)){
     if(ncol(r_set)!=n_dim){
       stop("The dimension of inputed r_set not coincides with dimension!")
     }
   }
   if(is.null(r_set)){
-     r_set <- r_setting(m, n_dim)
-    }
+    r_set <- r_setting(m, n_dim)
+  }
   if(!is.null(SIGMA)){
     if(ncol(SIGMA)!=n_dim){
       stop("The dimension of inputed SIGMA not coincides with dimension!")
@@ -103,14 +96,8 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
     r <- r_set[ii,]
     sig <- SIGMA[ii,]# If SIGMA is null then sig is null too, else sig is the user specified value
     delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
-    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd,Power, seed)
+    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd, seed)
   }
   Res <- cbind(r_set, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
- return(Res)
+  return(Res)
 }
-
-
-
-
-
-

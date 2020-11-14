@@ -14,3 +14,7 @@ RoxygenNote: 7.1.1
 NeedsCompilation: no
 Packaged: 2020-10-26 06:43:24 UTC; yitaolu
 Imports: reticulate, mnormt, fields, plotly
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
