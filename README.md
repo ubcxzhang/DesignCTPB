@@ -16,11 +16,12 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 ## How to run in R:
 
 ### Setting Python environment and load package
-Sys.setenv(RETICULATE_PYTHON=<python_path_with_module_numba>)# *<font face = "Times New Roman">Note that please specify one python version here instead of using the default r-reticulate python environment, which may encounter errors.</font>*\
-library(DesignCTPB)
+library(DesignCTPB)\
+create_venv(reticulate_venv="designctpb_numba",py_path=NULL) # user could name the python environment as he/she likes, also user can specify the python path, otherwise the default python will be assigned\
+py_initial(reticulate_venv="designctpb_numba")
 
 ### Calculating optimal alpha-split for a given setting of input parameters
-alpha_split(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),Power=NULL,seed=NULL)
+alpha_split(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL)
 
 ### Calculating optimal alpha-split for many settings of r values (i.e. size of nested subpopulations), and visualize their results and calculate optimal choice of r values
 res <- design_ctpb(m=24, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL)\
