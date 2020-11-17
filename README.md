@@ -1,6 +1,6 @@
 # DesignCTPB
 
-**USER NEED TO KNOW: NVIDIA GPU CARD IS A MUST FOR RUNNING OUR PACKAGE AND BEFORE YOU USE OUR PACKAGE, PLEASE CHECK CUDA AND CUDATOOLKIT ARE WELL INSTALLED.**
+**USER NEED TO KNOW: NVIDIA GPU CARD IS A MUST FOR RUNNING OUR PACKAGE AND BEFORE YOU USE OUR PACKAGE, PLEASE CHECK CUDA AND CUDATOOLKIT ARE WELL INSTALLED. AS FOR THE INSTALLATION OF CUDA DRIVER, PLEASE REFER TO: https://www.nvidia.com/Download/index.aspx**
 
 This is the beta version of R package for designing clinical trial with potential biomarker effect. Currently we are working on the following two tasks,\
   (1) preparing documentation for this package.\
