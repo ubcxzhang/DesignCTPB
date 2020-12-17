@@ -4,10 +4,10 @@
 \alias{py_initial}
 \title{Initiate the reticulate environment}
 \usage{
-py_initial(reticulate_venv = "designctpb_numba")
+py_initial(reticulate_venv)
 }
 \arguments{
-\item{reticulate_venv}{the name of the reticulate virtual environment has been setup}
+\item{reticulate_venv}{character, the name of the reticulate virtual environment has been setup}
 }
 \description{
 A utility function to initiate the python environment created by create_venv(), source the python function into the R environment and set it as global function.

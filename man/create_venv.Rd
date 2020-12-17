@@ -4,12 +4,12 @@
 \alias{create_venv}
 \title{Setup reticulate environment}
 \usage{
-create_venv(reticulate_venv = "designctpb_numba", py_path = NULL)
+create_venv(reticulate_venv, py_path = NULL)
 }
 \arguments{
-\item{reticulate_venv}{the name of the reticulate virtual environment to setup.}
+\item{reticulate_venv}{character, the name of the reticulate virtual environment to setup.}
 
-\item{py_path}{the specified python path, the default value is NULL and the default python path will be applied}
+\item{py_path}{character, python path, the default value is NULL which the default python path will be applied}
 }
 \description{
 A utility function to create and setup reticulate virtual environment and source the python function into the R environment.
