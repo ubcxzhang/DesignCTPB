@@ -1,8 +1,21 @@
-# Smoothing
-
-#' This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
-
+#' The optimal design given one set of proportion for each sub-population
+#' @description First, the function fits a smooth surface given grid values of alpha(that's sig.lv for each sub-population) and the corresponding power values, and we suggest thin plate splines here. Second, we apply a L-BFGS-B optimization method to estimate the optimal power values and the corresponding alpha value on the estimated thin plate spline surface. 
+#' @param r vector for the proportion for each sub-population, r_1 is 1, r_i>r_{i+1}
+#' @param N1 integer, which is fixed as 10240 in our package
+#' @param N2 integer, which is fixed as 20480 in our package
+#' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
+#' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply
+#' @param sig the vector of standard deviation of each sub-population 
+#' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified, then sd_full must has an input value to define the standard deviation of the full population
+#' @param delta vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
+#' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if the delta is not specified for each sub-population, then the linear scheme will apply and the input is a must. 
+#' @param seed integer, seed for random number generation
+#' @return list of the optimal results given specific r: optimal alpha split and the corresponding optimal power value
+#' @examples 
+#' #In the example, we apply a linear scheme for the harzard reduction 
+#' alpha_slpit(r=c(1,0.4,0.1), N1=20480, N2=10240, N3=2000, sd_full=1/base::sqrt(20),delta_linear_bd = c(0.2,0.8))
 #' @export
+#' 
 alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
@@ -33,7 +46,11 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   return(res)
 }
 
-#' This function is to decide the r setting given specific density in each dimension
+#' Grid setting of proportions for each sub-population 
+#' @description This function is to decide the r setting given specific density in each dimension
+#' @param m integer, the number of grid points in each dimension, and we suggest m around 20 for 3 dimension
+#' @param n_dim integer for the dimension, which is equal to the number of sub-population plus 1
+#' @return matrix of setting the proportion of the population by given specific dimension and density in each dimension
 #' @export
 r_setting <- function(m, n_dim){
   set <- seq(0.05,0.99,by=1/(m+1))
@@ -63,8 +80,23 @@ r_setting <- function(m, n_dim){
 }
 
 
-#' This function is to obtain the optimal results given grid points of r setting
-
+#' The optimal results given the grid setting of proportions for each sub-population
+#' @description This function is to obtain the optimal results given grid points of r setting by running alpha_split(). 
+#'
+#' @param m integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension
+#' @param n_dim integer, the number of dimension
+#' @param r_set the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}
+#' @param N1 integer, which is fixed as 10240 in our package
+#' @param N2 integer, which is fixed as 20480 in our package
+#' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
+#' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply
+#' @param sig the vector of standard deviation of each sub-population 
+#' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population
+#' @param delta vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
+#' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
+#' @param seed integer,  seed for random number generation
+#' @return matrix of the optimal results: the optimal power values, the corresponding alpha and the proportion for each sub-population
+#'
 Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, seed){
   if(!is.null(r_set)){
     if(ncol(r_set)!=n_dim){

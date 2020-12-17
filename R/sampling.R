@@ -1,6 +1,9 @@
-#SAMPLING FUNCTION'
-#' The Alpha function is to generate valid significant level grid values
-
+#' Generate the valid significant level grid values
+#' @description The function Alpha is to generate valid significant level grid values given the constraint function constraint().
+#' @param r vector for the proportion for each sub-population, r_1 is 1, r_i > r_{i+1}
+#' @param N3 integer, the number of grid point chosen for the alpha space [0,0.025]*...*[0,0.025]
+#' @return A matrix of the valid significant level grid values
+#' 
 Alpha <- function(r, N3){
   n_dim <- length(r)
   if(n_dim == 2){
@@ -44,13 +47,26 @@ Alpha <- function(r, N3){
   return(alpha)
 } 
 
-#OUTPUT:
-## the estimated N3 power values corresponding to fixed alpha1~alpha3, which is grid arranged.
-
-
-#' Estimate the power for N3 alpha, given fixed r
+#' Point estimator for the power value
+#' @description This function is to estimate the power values given fixed proportion r for each sub-population, which we utilize Monte Carlo method and GPU accelerator to estimate the power value. The user can specify the standard deviation and harzard reduction for each sub-population as the prior information of harzard reduction distribution, when not specified, we apply a default setting of linear harzard reduction scheme and the sd for each sub-population is inversely proportional to sqrt(r_i)
+#'
+#' @param r vector for the proportion for each sub-population, r_1is 1, r_i>r_{i+1}
+#' @param N1 integer, which is fixed as 10240 in our package
+#' @param N2 integer, which is fixed as 20480 in our package
+#' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
+#' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified, then an estimation will be applied
+#' @param sig the vector of standard deviation of each sub-population 
+#' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction. If sig is not specified, then sd_full must has an input value to define the standard deviation of the full population
+#' @param delta vector, the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
+#' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
+#' @param seed integer,  seed for random number generation
+#' @details We interface python by reticulate package to utilize numba(cuda version) module to accelerate calculation. 
+#' @return list of 2 parts of the sampling points given specific r; alpha is the matrix as each row is the given sig.lv for each population; power is the corresponding power values given each row of the alpha
 #' @export
-
+#' @examples
+#' # In the following example, we set the proportion of each sub-population as 0.5 and 0.2, the number of events is 600, the standard deviation for each subset is denoted as sig and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
+#' power_estimator(r=c(1,0.5,0.1),N1=20480,N2=10240,N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28),seed=set.seed())
+#' 
 
 power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
   n_dim <- length(r)
@@ -104,12 +120,6 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
     It <- E/4
   }
   
-  # a <- r
-  # if(is.null(Power)){
-  #   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB")) # source python4R.py into the environment
-  #   Power <- Power_sampling
-  # }
-  # a <- r
   pp <- Power.sampling(R1,R2,r,It,alpha)
   
   return(list(alpha=alpha, power=pp))

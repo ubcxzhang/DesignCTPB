@@ -1,11 +1,30 @@
-#Plot of Fig. 1
-#source("R/smoothing.R")
-
-
-
-#' This function is to obtain fig.1 and get the optimal cutoff for the clinical design
+#' Optimal design for 3-dimensional with visulization
+#' @description This function uses GPU parallel computing to calculate the high dimensional integral and apply the smoothing method(thin plate splines) to get the optimum of power values given the prior information: the harzard reduction distribution. This function guides to choose the size of nested populations, i.e. find optimal r-values. The function visualizes and optimizes r-values, but only supports 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
+#'
+#' @param m integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension
+#' @param n_dim integer, the number of dimension
+#' @param r_set the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}
+#' @param N1 integer, which is fixed as 10240 in our package
+#' @param N2 integer, which is fixed as 20480 in our package
+#' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
+#' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply
+#' @param sig the vector of standard deviation of each sub-population 
+#' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population
+#' @param delta vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
+#' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
+#' @param seed integer,  seed for random number generation
+#' @return list of 5 parts: plot_power: 3-d plot of the optimal power values versus r2 and r3; plot_alpha: 3-d plot of the optimal alpha-split values versus r2 and r3; opt_r_split: the optimal choice of proportion for each sub-population; opt_power: the optimal power values with the optimal r choice; opt_alpha_split: the optimal alpha split with the optimal r choice
+#' @details the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
+#'
+#' @examples
+#' # the default setting of our paper's strong biomarker effect 
+#' res <- design_ctpb()
+#' res$plot_power # to see 3-d plot for the optimal power versus r2 and r3
+#' res$plot_alpha # to see 3-d plot for the optimal alpha versus r2 and r3
+#' res$opt_r_split #  to see the optimal cutoff of the sub-population, and here suggesting not cutoff at the 2-nd sub-population
+#' res$opt_power 
+#' res$opt_alpha_split
 #' @export
-# the default setting is our strong continuous condition in our paper
 design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL){
   
   opt_res <- Optim_Res(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, seed)

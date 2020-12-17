@@ -1,5 +1,9 @@
-#' A utility function to create and setup reticulate virtual environment and source the python function into the R environment. 
+#' Setup reticulate environment
+#' @description A utility function to create and setup reticulate virtual environment and source the python function into the R environment. 
 #'
+#' @param reticulate_venv the name of the reticulate virtual environment to setup.
+#' @param py_path the specified python path, the default value is NULL and the default python path will be applied
+#' @details set up the python environment, and check whether the required python modules installed or not, if not install it. 
 #' @export 
 #' @examples 
 #' create_venv()
@@ -20,8 +24,9 @@ create_venv <- function(reticulate_venv="designctpb_numba",py_path=NULL) {
   reticulate::virtualenv_install(reticulate_venv,c('scipy','pandas','numba'))
 }
 
-#' A utility function to source the python function into the R environment. 
-#'
+#' Initiate the reticulate environment
+#' @description A utility function to initiate the python environment created by create_venv(), source the python function into the R environment and set it as global function. 
+#' @param reticulate_venv the name of the reticulate virtual environment has been setup
 #' @export 
 #' @examples 
 #' py_initial()
