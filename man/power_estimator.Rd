@@ -2,7 +2,7 @@
 % Please edit documentation in R/sampling.R
 \name{power_estimator}
 \alias{power_estimator}
-\title{Estimate the power for N3 alpha, given fixed r}
+\title{Point estimator for the power value}
 \usage{
 power_estimator(
   r,
@@ -17,6 +17,38 @@ power_estimator(
   seed = NULL
 )
 }
+\arguments{
+\item{r}{vector for the proportion for each sub-population, r_1is 1, r_i>r_{i+1}}
+
+\item{N1}{integer, which is fixed as 10240 in our package}
+
+\item{N2}{integer, which is fixed as 20480 in our package}
+
+\item{N3}{integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel}
+
+\item{E}{integer, the total number of events for the Phase 3 clinical trail, if not specified, then an estimation will be applied}
+
+\item{sig}{the vector of standard deviation of each sub-population}
+
+\item{sd_full}{a numeric number, which denotes the prior information of standard deviation for the harzard reduction. If sig is not specified, then sd_full must has an input value to define the standard deviation of the full population}
+
+\item{delta}{vector, the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction}
+
+\item{delta_linear_bd}{vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must.}
+
+\item{seed}{integer,  seed for random number generation}
+}
+\value{
+list of 2 parts of the sampling points given specific r; alpha is the matrix as each row is the given sig.lv for each population; power is the corresponding power values given each row of the alpha
+}
 \description{
-Estimate the power for N3 alpha, given fixed r
+This function is to estimate the power values given fixed proportion r for each sub-population, which we utilize Monte Carlo method and GPU accelerator to estimate the power value. The user can specify the standard deviation and harzard reduction for each sub-population as the prior information of harzard reduction distribution, when not specified, we apply a default setting of linear harzard reduction scheme and the sd for each sub-population is inversely proportional to sqrt(r_i)
+}
+\details{
+We interface python by reticulate package to utilize numba(cuda version) module to accelerate calculation.
+}
+\examples{
+# In the following example, we set the proportion of each sub-population as 0.5 and 0.2, the number of events is 600, the standard deviation for each subset is denoted as sig and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
+power_estimator(r=c(1,0.5,0.1),N1=20480,N2=10240,N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28),seed=set.seed())
+
 }

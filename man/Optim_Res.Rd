@@ -2,7 +2,7 @@
 % Please edit documentation in R/smoothing.R
 \name{Optim_Res}
 \alias{Optim_Res}
-\title{This function is to obtain the optimal results given grid points of r setting}
+\title{The optimal results given the grid setting of proportions for each sub-population}
 \usage{
 Optim_Res(
   m,
@@ -19,6 +19,34 @@ Optim_Res(
   seed
 )
 }
+\arguments{
+\item{m}{integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension}
+
+\item{r_set}{the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}}
+
+\item{n_dim}{integer, the number of dimension}
+
+\item{N1}{integer, which is fixed as 10240 in our package}
+
+\item{N2}{integer, which is fixed as 20480 in our package}
+
+\item{N3}{integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel}
+
+\item{E}{integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply}
+
+\item{sd_full}{a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population}
+
+\item{delta_linear_bd}{vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must.}
+
+\item{seed}{integer,  seed for random number generation}
+
+\item{sig}{the vector of standard deviation of each sub-population}
+
+\item{delta}{vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction}
+}
+\value{
+matrix of the optimal results: the optimal power values, the corresponding alpha and the proportion for each sub-population
+}
 \description{
-This function is to obtain the optimal results given grid points of r setting
+This function is to obtain the optimal results given grid points of r setting by running alpha_split().
 }

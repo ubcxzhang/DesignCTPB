@@ -2,7 +2,7 @@
 % Please edit documentation in R/smoothing.R
 \name{alpha_split}
 \alias{alpha_split}
-\title{This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines}
+\title{The optimal design given one set of proportion for each sub-population}
 \usage{
 alpha_split(
   r = c(1, 0.5, 0.3),
@@ -17,6 +17,34 @@ alpha_split(
   seed = NULL
 )
 }
+\arguments{
+\item{r}{vector for the proportion for each sub-population, r_1 is 1, r_i>r_{i+1}}
+
+\item{N1}{integer, which is fixed as 10240 in our package}
+
+\item{N2}{integer, which is fixed as 20480 in our package}
+
+\item{N3}{integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel}
+
+\item{E}{integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply}
+
+\item{sig}{the vector of standard deviation of each sub-population}
+
+\item{sd_full}{a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified, then sd_full must has an input value to define the standard deviation of the full population}
+
+\item{delta}{vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction}
+
+\item{delta_linear_bd}{vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if the delta is not specified for each sub-population, then the linear scheme will apply and the input is a must.}
+
+\item{seed}{integer, seed for random number generation}
+}
+\value{
+list of the optimal results given specific r: optimal alpha split and the corresponding optimal power value
+}
 \description{
-This function is to fit a smooth model given alpha and corresponding power values from Monte Carlo sampling, and in 3-dim set, we suggest thin plate splines
+First, the function fits a smooth surface given grid values of alpha(that's sig.lv for each sub-population) and the corresponding power values, and we suggest thin plate splines here. Second, we apply a L-BFGS-B optimization method to estimate the optimal power values and the corresponding alpha value on the estimated thin plate spline surface.
+}
+\examples{
+#In the example, we apply a linear scheme for the harzard reduction 
+alpha_slpit(r=c(1,0.4,0.1), N1=20480, N2=10240, N3=2000, sd_full=1/base::sqrt(20),delta_linear_bd = c(0.2,0.8))
 }

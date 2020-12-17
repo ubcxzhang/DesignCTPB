@@ -2,10 +2,22 @@
 % Please edit documentation in R/constrained_function.R
 \name{alpha_kernel}
 \alias{alpha_kernel}
-\title{The function is calculating the significant level for the n-th sub-population subject to the constraint function}
+\title{Calculate the significant level for the n-th sub-population}
 \usage{
 alpha_kernel(alpha_tol, r, sig.lv)
 }
+\arguments{
+\item{alpha_tol}{given the vector of significant level for the full to (n-1)-th sub-population}
+
+\item{r}{the proportion for each sub-population, r1 is 1, r_i>r_{i+1}}
+
+\item{sig.lv}{significant level for hypothesis testing, usually 0.025 for 2-side test}
+}
+\value{
+the significant level for the n-th sub-population subjects to the constraint function by giving the sig.lv of the full to the (n-1)-th sub-population
+}
 \description{
-The function is calculating the significant level for the n-th sub-population subject to the constraint function
+The function is calculating the significant level for the n-th sub-population subjects to the constraint function by giving the sig.lv of the full to the (n-1)-th sub-population
+
+We apply an one dimensional root finding method
 }

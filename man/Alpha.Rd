@@ -2,10 +2,18 @@
 % Please edit documentation in R/sampling.R
 \name{Alpha}
 \alias{Alpha}
-\title{The Alpha function is to generate valid significant level grid values}
+\title{Generate the valid significant level grid values}
 \usage{
 Alpha(r, N3)
 }
+\arguments{
+\item{r}{vector for the proportion for each sub-population, r_1 is 1, r_i > r_{i+1}}
+
+\item{N3}{integer, the number of grid point chosen for the alpha space [0,0.025]*...*[0,0.025]}
+}
+\value{
+A matrix of the valid significant level grid values
+}
 \description{
-The Alpha function is to generate valid significant level grid values
+The function Alpha is to generate valid significant level grid values given the constraint function constraint().
 }

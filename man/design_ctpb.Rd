@@ -2,7 +2,7 @@
 % Please edit documentation in R/design_ctpb.R
 \name{design_ctpb}
 \alias{design_ctpb}
-\title{This function is to obtain fig.1 and get the optimal cutoff for the clinical design}
+\title{Optimal design for 3-dimensional with visulization}
 \usage{
 design_ctpb(
   m = 24,
@@ -19,6 +19,46 @@ design_ctpb(
   seed = NULL
 )
 }
+\arguments{
+\item{m}{integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension}
+
+\item{r_set}{the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}}
+
+\item{n_dim}{integer, the number of dimension}
+
+\item{N1}{integer, which is fixed as 10240 in our package}
+
+\item{N2}{integer, which is fixed as 20480 in our package}
+
+\item{N3}{integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel}
+
+\item{E}{integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply}
+
+\item{sd_full}{a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population}
+
+\item{delta_linear_bd}{vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must.}
+
+\item{seed}{integer,  seed for random number generation}
+
+\item{sig}{the vector of standard deviation of each sub-population}
+
+\item{delta}{vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction}
+}
+\value{
+list of 5 parts: plot_power: 3-d plot of the optimal power values versus r2 and r3; plot_alpha: 3-d plot of the optimal alpha-split values versus r2 and r3; opt_r_split: the optimal choice of proportion for each sub-population; opt_power: the optimal power values with the optimal r choice; opt_alpha_split: the optimal alpha split with the optimal r choice
+}
 \description{
-This function is to obtain fig.1 and get the optimal cutoff for the clinical design
+This function uses GPU parallel computing to calculate the high dimensional integral and apply the smoothing method(thin plate splines) to get the optimum of power values given the prior information: the harzard reduction distribution. This function guides to choose the size of nested populations, i.e. find optimal r-values. The function visualizes and optimizes r-values, but only supports 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
+}
+\details{
+the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
+}
+\examples{
+# the default setting of our paper's strong biomarker effect 
+res <- design_ctpb()
+res$plot_power # to see 3-d plot for the optimal power versus r2 and r3
+res$plot_alpha # to see 3-d plot for the optimal alpha versus r2 and r3
+res$opt_r_split #  to see the optimal cutoff of the sub-population, and here suggesting not cutoff at the 2-nd sub-population
+res$opt_power 
+res$opt_alpha_split
 }

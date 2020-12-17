@@ -2,12 +2,15 @@
 % Please edit documentation in R/create_venv.R
 \name{py_initial}
 \alias{py_initial}
-\title{A utility function to source the python function into the R environment.}
+\title{Initiate the reticulate environment}
 \usage{
 py_initial(reticulate_venv = "designctpb_numba")
 }
+\arguments{
+\item{reticulate_venv}{the name of the reticulate virtual environment has been setup}
+}
 \description{
-A utility function to source the python function into the R environment.
+A utility function to initiate the python environment created by create_venv(), source the python function into the R environment and set it as global function.
 }
 \examples{
 py_initial()
