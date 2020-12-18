@@ -2,9 +2,7 @@
 
 **USER NEED TO KNOW: NVIDIA GPU CARD IS A MUST FOR RUNNING OUR PACKAGE AND BEFORE YOU USE OUR PACKAGE, PLEASE CHECK CUDA AND CUDATOOLKIT ARE WELL INSTALLED. AS FOR THE INSTALLATION OF CUDA DRIVER, PLEASE REFER TO: https://www.nvidia.com/Download/index.aspx**
 
-This is the beta version of R package for designing clinical trial with potential biomarker effect. Currently we are working on the following two tasks,\
-  (1) preparing documentation for this package.\
-  (2) testing this package in various environments and evalueting its consistency. Our original code was developed on Compute Canada Servers with versions of dependency listed above. 
+This is the beta version of R package for designing clinical trial with potential biomarker effect. 
   
 For a given setting of input parameters, this package can solve up to 5-dimension alpha-split problems. This can also be expended to handle higher dimension problems. But in practice, we do not suggest consider too high dimensions, since considering too many subpopulation leads to too much loss in power, and not being the optimal choice.\
 This package can also guide the choice of size of nested populations, i.e. find optimal r-values. The function visualizes and optimizes r-values, but only supports 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
@@ -19,7 +17,7 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 
 ### Setting Python environment and load package
 library(DesignCTPB)\
-create_venv(reticulate_venv="designctpb_numba",py_path=NULL) # user could name the python environment as he/she likes, also user can specify the python path, otherwise the default python will be assigned\
+create_venv(reticulate_venv="designctpb_numba",py_path=NULL) # user could name the python environment as he/she likes, also user can specify the python path, otherwise the default python will be applied\
 py_initial(reticulate_venv="designctpb_numba")
 
 ### Calculating optimal alpha-split for a given setting of input parameters
