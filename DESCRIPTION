@@ -1,8 +1,8 @@
 Package: DesignCTPB
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Design clinical trials with biomarker effect
 Version: 0.1.0
-Author: YT Lu; Belaid
+Author: Yitao Lu; Belaid
 Maintainer: The package maintainer <bmoa@uvic.ca>
 Description: This package uses GPUs via NUMBA for optimal clinical design 
     It allows the user to create a reticulate environment and run intensive
