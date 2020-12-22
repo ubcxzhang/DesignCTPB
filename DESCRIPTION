@@ -1,6 +1,5 @@
 Package: DesignCTPB
 Type: Package
-<<<<<<< HEAD
 Title: Novel Computational Solution for Clinical Trials Design with Potential Biomarker Effect
 Version: 0.1.0
 Authors@R: c(person("Xuekui","Zhang", email = "xuekui@uvic.ca", 
@@ -9,16 +8,7 @@ Authors@R: c(person("Xuekui","Zhang", email = "xuekui@uvic.ca",
   role = c("aut")), person("Belaid", email = "bmoa@uvic.ca", 
   role = c("aut")),person("Yitao", "Lu", email = "yitaolu@uvic.ca", 
   role = c("aut","cre")))
-Description: This package uses GPUs via NUMBA for optimal clinical design.
-=======
-Title: Design clinical trials with biomarker effect
-Version: 0.1.0
-Author: Yitao Lu; Belaid
-Maintainer: The package maintainer <bmoa@uvic.ca>
-Description: This package uses GPUs via NUMBA for optimal clinical design 
->>>>>>> 0685c623f2432eb2923d5bcf1ac80714eb638b79
-    It allows the user to create a reticulate environment and run intensive
-    Monte Carlo simulation to get the optimal cutoff for the clinical design with potential biomarker effect.
+Description: This package uses GPUs via NUMBA for optimal clinical design. It allows the user to create a reticulate environment and run intensive Monte Carlo simulation to get the optimal cutoff for the clinical design with potential biomarker effect.
 License: GPL (>= 2)
 Encoding: UTF-8
 LazyData: true
