@@ -45,6 +45,8 @@ list of the optimal results given specific r: optimal alpha split and the corres
 First, the function fits a smooth surface given grid values of alpha(that's sig.lv for each sub-population) and the corresponding power values, and we suggest thin plate splines here. Second, we apply a L-BFGS-B optimization method to estimate the optimal power values and the corresponding alpha value on the estimated thin plate spline surface.
 }
 \examples{
+\dontrun{
 #In the example, we apply a linear scheme for the harzard reduction 
-alpha_slpit(r=c(1,0.4,0.1), N1=20480, N2=10240, N3=2000, sd_full=1/base::sqrt(20),delta_linear_bd = c(0.2,0.8))
+alpha_slpit(r=c(1,0.4,0.1), N3=2000, sd_full=sqrt(20),delta_linear_bd = c(0.2,0.8))
+}
 }

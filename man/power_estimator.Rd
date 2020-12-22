@@ -48,7 +48,10 @@ This function is to estimate the power values given fixed proportion r for each 
 We interface python by reticulate package to utilize numba(cuda version) module to accelerate calculation.
 }
 \examples{
-# In the following example, we set the proportion of each sub-population as 0.5 and 0.2, the number of events is 600, the standard deviation for each subset is denoted as sig and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
-power_estimator(r=c(1,0.5,0.1),N1=20480,N2=10240,N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28),seed=set.seed())
-
+\dontrun{
+# In the following example, we set the proportion of each sub-population as 0.5 and 0.2, 
+#the number of events is 600, the standard deviation for each subset is denoted as sig 
+#and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
+power_estimator(r=c(1,0.5,0.1),N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28))
+}
 }

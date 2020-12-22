@@ -13,6 +13,7 @@ py_initial(reticulate_venv)
 A utility function to initiate the python environment created by create_venv(), source the python function into the R environment and set it as global function.
 }
 \examples{
+\dontrun{
 py_initial()
-
+}
 }

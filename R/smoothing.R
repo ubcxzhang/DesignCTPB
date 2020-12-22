@@ -12,8 +12,10 @@
 #' @param seed integer, seed for random number generation
 #' @return list of the optimal results given specific r: optimal alpha split and the corresponding optimal power value
 #' @examples 
+#' \dontrun{
 #' #In the example, we apply a linear scheme for the harzard reduction 
-#' alpha_slpit(r=c(1,0.4,0.1), N1=20480, N2=10240, N3=2000, sd_full=1/base::sqrt(20),delta_linear_bd = c(0.2,0.8))
+#' alpha_slpit(r=c(1,0.4,0.1), N3=2000, sd_full=sqrt(20),delta_linear_bd = c(0.2,0.8))
+#'}
 #' @export
 #' 
 alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL){
@@ -35,7 +37,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
     x <- t(x)
     names(x) <- paste("X",1:(length(r)-1), sep='')
     new <- data.frame(x)
-    p =-predict(estimate_model,new)
+    p =-stats::predict(estimate_model,new)
     return(p)
   }
   
@@ -90,9 +92,9 @@ r_setting <- function(m, n_dim){
 #' @param N2 integer, which is fixed as 20480 in our package
 #' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
 #' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply
-#' @param sig the vector of standard deviation of each sub-population 
+#' @param SIGMA the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set) 
 #' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population
-#' @param delta vector,the point estimation of harzard reduction in prior information, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
+#' @param DELTA matrix, each row is an vector stands for the point estimation of harzard reduction in prior information corresponds to the r setting, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
 #' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
 #' @param seed integer,  seed for random number generation
 #' @return matrix of the optimal results: the optimal power values, the corresponding alpha and the proportion for each sub-population

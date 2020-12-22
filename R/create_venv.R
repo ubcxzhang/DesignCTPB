@@ -6,8 +6,9 @@
 #' @details set up the python environment, and check whether the required python modules installed or not, if not install it. 
 #' @export 
 #' @examples 
+#' \dontrun{
 #' create_venv()
-#' 
+#' }
 create_venv <- function(reticulate_venv, py_path=NULL) {
   if(is.element(reticulate_venv, reticulate::virtualenv_list())){
     print(paste("Reticulate environment",reticulate_venv, "is already exists!", sep=' ' ))
@@ -29,8 +30,9 @@ create_venv <- function(reticulate_venv, py_path=NULL) {
 #' @param reticulate_venv character, the name of the reticulate virtual environment has been setup
 #' @export 
 #' @examples 
+#'\dontrun{
 #' py_initial()
-#' 
+#' }
 py_initial <- function(reticulate_venv){
   reticulate::use_virtualenv(reticulate_venv, required = TRUE)
   reticulate::py_config()

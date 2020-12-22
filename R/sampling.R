@@ -62,11 +62,14 @@ Alpha <- function(r, N3){
 #' @param seed integer,  seed for random number generation
 #' @details We interface python by reticulate package to utilize numba(cuda version) module to accelerate calculation. 
 #' @return list of 2 parts of the sampling points given specific r; alpha is the matrix as each row is the given sig.lv for each population; power is the corresponding power values given each row of the alpha
-#' @export
 #' @examples
-#' # In the following example, we set the proportion of each sub-population as 0.5 and 0.2, the number of events is 600, the standard deviation for each subset is denoted as sig and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
-#' power_estimator(r=c(1,0.5,0.1),N1=20480,N2=10240,N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28),seed=set.seed())
-#' 
+#' \dontrun{
+#' # In the following example, we set the proportion of each sub-population as 0.5 and 0.2, 
+#' #the number of events is 600, the standard deviation for each subset is denoted as sig 
+#' #and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
+#' power_estimator(r=c(1,0.5,0.1),N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28))
+#' }
+#' @export
 
 power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
   n_dim <- length(r)
@@ -110,7 +113,7 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   R1 <- mnormt::rmnorm(n=N1,mean=rep(0,n_dim), varcov=sigma1)
   R2 <- mnormt::rmnorm(n=N2, mean=mean2, varcov=sigma2)
   #call power in power4R.py and calculate the N power values
-  alpha <- Alpha(r,N=N3)
+  alpha <- Alpha(r,N3=N3)
   # If user denote the number of events, then the information units in the algorithm should be E/4, 
   # else we estimate it by the following 
   if(is.null(E)){

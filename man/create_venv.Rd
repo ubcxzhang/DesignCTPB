@@ -18,6 +18,7 @@ A utility function to create and setup reticulate virtual environment and source
 set up the python environment, and check whether the required python modules installed or not, if not install it.
 }
 \examples{
+\dontrun{
 create_venv()
-
+}
 }
