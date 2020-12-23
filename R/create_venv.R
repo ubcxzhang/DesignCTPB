@@ -17,12 +17,22 @@ create_venv <- function(reticulate_venv, py_path=NULL) {
     print(paste("Creating reticulate environment with the name:", reticulate_venv))
     if(is.null(py_path)){
       reticulate::virtualenv_create(reticulate_venv)
+      reticulate::use_virtualenv(reticulate_venv, required = TRUE)
     }
     else{
       reticulate::virtualenv_create(reticulate_venv, python = py_path)
+      reticulate::use_virtualenv(reticulate_venv, required = TRUE)
     }
   }
-  reticulate::virtualenv_install(reticulate_venv,c('scipy','pandas','numba'))
+  if(!reticulate::py_module_available("numba")){
+    reticulate::virtualenv_install(reticulate_venv,'numba')
+  }
+  if(!reticulate::py_module_available("scipy")){
+    reticulate::virtualenv_install(reticulate_venv,'scipy')
+  }
+  if(!reticulate::py_module_available("pandas")){
+    reticulate::virtualenv_install(reticulate_venv,'pandas')
+  }
 }
 
 #' Initiate the reticulate environment
