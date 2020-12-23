@@ -32,6 +32,8 @@ library(DesignCTPB)
 ```
 
 ## set up the python environment and check the required modules 
+
+Environment setup is always painful, if getting errors say that one version of python is used, if you want to use the python(in your virtual environment), please restart R session and try a new environment name again. Also after you have setup the virtual environment. Next time to run the package, the virtual environment already exists, hence you only have to initiate the virtual environment by py_initial("name_of _you_virtual_environment")(i.e. "numba4r" here). 
 ```{r set up environment, eval=FALSE, message=FALSE, warning=FALSE}
 create_venv("numba4r") #can specify any python path 
 ```
