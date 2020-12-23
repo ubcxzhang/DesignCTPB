@@ -31,14 +31,10 @@ This package can guide researchers to do clinical trials with nested sub-populat
 library(DesignCTPB)
 ```
 
-## set up the python environment and check the required modules 
+## Auto-setup the python environment
 
-Environment setup is always painful, if getting errors say that one version of python is used, if you want to use the python(in your virtual environment), please restart R session and try a new environment name again. Also after you have setup the virtual environment. Next time to run the package, the virtual environment already exists, hence you only have to initiate the virtual environment by py_initial("name_of _you_virtual_environment")(i.e. "numba4r" here). 
-```{r set up environment, eval=FALSE, message=FALSE, warning=FALSE}
-create_venv("numba4r") #can specify any python path 
-```
-```{r python initiate, eval=FALSE}
-py_initial("numba4r")
+```{r python initiate, warning=FALSE, eval=FALSE}
+py_ini()
 ```
 
 ## Calculating optimal alpha-split for a given setting of proportion of each subpopulation
@@ -49,7 +45,7 @@ alpha_split()# the default setting will give an optimal results of 3-dimensional
 
 ## Calculating optimal alpha-split for variate settings of r values (i.e. size of nested subpopulations), and visualize their results, calculate optimal choice of the proportion for each subset
 
-First, we show the results presented in our paper, which shows the strong and weak biomarker effect examples. Below shows how to get the results. m is the density value for grid setting or r(the proportion for each sub-population); n_dim denotes the dimension; N1 and N2 are fixed and we suggest do not change them otherwise have to change the corresponding the number of threads and block in python code. N3 could be changed and has to be the multiplier of 5. E is the total number of events in the clinical trial, if not specified, we will apply an estimated information units, please refer to formula(10) in our paper. SIGMA is the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set). For simplify, we apply $\sigma_i = \frac{1}{\sqrt{20*r_i}}$ which has been explained in the paper. DELTA is the matrix of harzard reduction conrresponding to the r setting too. While for simplify, we use a linear scheme of harzard reduction, which means $\Delta_i = 0.8-0.6*r_i$ in our example below. 
+In this guidance, we show the results presented in our paper, which are the simulation examples for the strong and weak biomarker effect conditions. The following chunk shows how to get the results. m is the density value for grid setting or r(the proportion for each sub-population); n_dim denotes the dimension; N1 and N2 are fixed and we suggest do not change them otherwise have to change the corresponding the number of threads and block in python code. N3 could be changed and has to be the multiplier of 5. E is the total number of events in the clinical trial, if not specified, we will apply an estimated information units, please refer to formula(10) in our paper. SIGMA is the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set). For simplify, we apply $\sigma_i = \frac{1}{\sqrt{20*r_i}}$ which has been explained in the paper. DELTA is the matrix of harzard reduction conrresponding to the r setting too. While for simplify, we use a linear scheme of harzard reduction, which means $\Delta_i = 0.8-0.6*r_i$ in our example below. 
 
 ```{r visulization, eval=FALSE, warning=FALSE, tidy=TRUE}
 res <- design_ctpb(m=24, n_dim=3, sd_full=1/sqrt(20),delta_linear_bd=c(0.2,0.8))

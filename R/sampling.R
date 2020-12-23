@@ -124,6 +124,7 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   }
   
   pp <- Power.sampling(R1,R2,r,It,alpha)
+  #pp <- Power_sampling(R1,R2,r,It,alpha)
   
   return(list(alpha=alpha, power=pp))
 }
