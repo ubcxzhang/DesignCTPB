@@ -25,6 +25,7 @@ And we formulate the problem of clinical trial design into an optimization probl
 This package can guide researchers to do clinical trials with nested sub-population effect, which is easily to use. Before using the package, please check your CUDA and CUDAtoolkit are well-installed. Here are the guidance for users.
 
 
+# How to
 
 ```{r library, echo = T, results = 'hide', warning=FALSE, message=FALSE}
 library(DesignCTPB)
@@ -66,11 +67,11 @@ data("res_strong")
 ```
 
 
-```{r echo=TRUE, fig.show='asis', warning=FALSE}
+```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
 res_strong$plot_power
 ```
 
-```{r echo=TRUE, fig.show='asis', warning=FALSE}
+```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
 res_strong$plot_alpha
 ```
 
@@ -101,11 +102,11 @@ data("res_weak")
 ```
 
 
-```{r echo=TRUE, fig.show='asis', warning=FALSE}
+```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
 res_weak$plot_power
 ```
 
-```{r echo=TRUE, fig.show='asis', warning=FALSE}
+```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
 res_weak$plot_alpha
 ```
 
