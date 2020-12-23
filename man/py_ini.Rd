@@ -6,6 +6,9 @@
 \usage{
 py_ini()
 }
+\value{
+the physical address of R function Power_sampling, converted from python file "python4R.py"
+}
 \description{
 A utility function to initiate the python environment and source the python function into the R environment and set it as global function.
 }
