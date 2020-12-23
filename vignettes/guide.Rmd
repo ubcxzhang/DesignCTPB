@@ -29,7 +29,6 @@ This package can guide researchers to do clinical trials with nested sub-populat
 
 ```{r library, echo = T, results = 'hide', warning=FALSE, message=FALSE}
 library(DesignCTPB)
-library(webshot)
 ```
 
 ## set up the python environment and check the required modules 

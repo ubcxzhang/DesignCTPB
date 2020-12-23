@@ -20,7 +20,6 @@ Imports: reticulate, mnormt, fields, magrittr
 Suggests: 
     knitr,
     rmarkdown,
-    webshot,
     plotly,
     dplyr
 VignetteBuilder: knitr
