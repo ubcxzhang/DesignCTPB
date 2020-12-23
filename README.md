@@ -15,10 +15,9 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 
 ## How to run in R:
 
-### Setting Python environment and load package
+### Auto-Setting Python environment and loading package
 library(DesignCTPB)\
-create_venv(reticulate_venv="designctpb_numba",py_path=NULL) # user could name the python environment as he/she likes, also user can specify the python path, otherwise the default python will be applied\
-py_initial(reticulate_venv="designctpb_numba")
+py_ini()
 
 ### Calculating optimal alpha-split for a given setting of input parameters
 alpha_split(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL)
