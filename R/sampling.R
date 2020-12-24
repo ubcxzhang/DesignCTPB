@@ -1,9 +1,5 @@
-#' Generate the valid significant level grid values
-#' @description The function Alpha is to generate valid significant level grid values given the constraint function constraint().
-#' @param r vector for the proportion for each sub-population, r_1 is 1, r_i > r_{i+1}
-#' @param N3 integer, the number of grid point chosen for the alpha space [0,0.025]*...*[0,0.025]
-#' @return A matrix of the valid significant level grid values
-#' 
+# Generate the valid significant level grid values
+
 Alpha <- function(r, N3){
   n_dim <- length(r)
   if(n_dim == 2){
