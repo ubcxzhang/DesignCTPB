@@ -32,7 +32,7 @@ res$opt_power
 
 **The default inputs give the results of the strong biomarker effect in our paper. Users can change the values of input parameters to generate plot and obtain the optimal alpha and r values. <!--In practice, we never design nested-population clinical trails where there is no biomarker effect. So we do not suggest users to use our settings as "the no biomarker effect" example in our paper, which is only for demostrate when no biomarker effect, our method make the correct choice of put all alpha- values on full population. -->
 
-In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting. \
+In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting. \
   *<font face = "Times New Roman">(e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting).</font>*\
 For obtaining the r-split setting, user can specify it personalized or follow our r_setting(m,n_dim) function. 
 
