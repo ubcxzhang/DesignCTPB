@@ -52,7 +52,7 @@ numba >=0.46.0
 scipy/numpy/pandas
 
 ## GPU and other Dependency 
-### Note that we develop our package under this cuda version, while we are still testing for other versions
+
 
 gcc/7.3.0\
 CUDA Tookit >=9.0 
