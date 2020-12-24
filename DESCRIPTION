@@ -2,13 +2,13 @@ Package: DesignCTPB
 Type: Package
 Title: Novel Computational Solution for Clinical Trials Design with Potential Biomarker Effect
 Version: 0.1.0
-Authors@R: c(person("Xuekui","Zhang", email = "xuekui@uvic.ca", 
-  role = c("aut")),person("Julie","Zhou", email = "jzhou@uvic.ca", 
-  role = c("aut")),person("Li","Xing", email = "li.xing@math.usask.ca", 
-  role = c("aut")), person("Belaid", email = "bmoa@uvic.ca", 
-  role = c("aut")),person("Yitao", "Lu", email = "yitaolu@uvic.ca", 
-  role = c("aut","cre")))
-Description: Applying GPUs via numba for optimal clinical design. It allows the user to utilize a reticulate python environment and run intensive Monte Carlo simulation to get the optimal cutoff for the clinical design with potential biomarker effect.
+Authors@R: c(person("Yitao", "Lu", email = "yitaolu@uvic.ca", 
+  role = c("aut","cre")), person("Belaid", email = "bmoa@uvic.ca", 
+  role = c("aut")), person("Julie","Zhou", email = "jzhou@uvic.ca", 
+  role = c("aut")), person("Li","Xing", email = "li.xing@math.usask.ca", 
+  role = c("aut")), person("Xuekui","Zhang", email = "xuekui@uvic.ca", 
+  role = c("aut")))
+Description: Applying CUDA GPUs via numba for optimal clinical design. It allows the user to utilize a reticulate python environment and run intensive Monte Carlo simulation to get the optimal cutoff for the clinical design with potential biomarker effect.
 License: GPL (>= 2)
 URL: < https://github.com/ubcxzhang/DesignCTPB>
 Encoding: UTF-8
@@ -24,11 +24,10 @@ Config/reticulate:
     )
   )
 Packaged: 2020-10-26 06:43:24 UTC; yitaolu
-Imports: reticulate, mnormt, fields, magrittr, utils 
+Imports: reticulate, mnormt, fields, magrittr, plotly
 Suggests: 
     knitr,
     rmarkdown,
-    plotly,
     dplyr
 VignetteBuilder: knitr
 Depends: 
