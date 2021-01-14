@@ -89,7 +89,7 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   sigma2 <- diag(sig)%*%sigma1%*%diag(sig)
   
   
-  #overall drug effect = lower_bio_eff
+  # overall drug effect = lower_bio_eff
   # calculate the mean for the drug effect in each subset
   mean2 <- -base::log(1-delta)
   #generate random vectors for sampling
