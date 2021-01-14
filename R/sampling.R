@@ -68,11 +68,15 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   diag(mat) <- rep(1, n_dim)
   sigma1 <- mat
   #verify n_dim == length(sig)==length(delta)
-  if((!is.null(sig))&&(n_dim!=length(sig))){
-    stop("Length of sig not coincides with the dimension!")
+  if((!is.null(sig))){
+    if((n_dim!=length(sig))){
+      stop("Length of sig not coincides with the dimension!")
+    }
   }
-  if((!is.null(delta))&&(n_dim!=length(delta))){
-    stop("Length of delta not coincides with the dimension!")
+  if((!is.null(delta))){
+    if(n_dim!=length(delta)){
+      stop("Length of delta not coincides with the dimension!")
+    }
   }
   if(is.null(sig)){
     sig <- sd_full*(1/rr)
@@ -93,28 +97,22 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   # calculate the mean for the drug effect in each subset
   mean2 <- -base::log(1-delta)
   #generate random vectors for sampling
-  if(is.null(seed)){
-    set.seed(205851) #  for weak 76605863
-  }
-  else{
-    set.seed(seed)
-  }
+  if(is.null(seed)) set.seed(205851) else set.seed(seed) #  for weak 76605863
   R1 <- mnormt::rmnorm(n=N1,mean=rep(0,n_dim), varcov=sigma1)
   R2 <- mnormt::rmnorm(n=N2, mean=mean2, varcov=sigma2)
   #call power in power4R.py and calculate the N power values
   alpha <- Alpha(r,N3=N3)
   # If user denote the number of events, then the information units in the algorithm should be E/4, 
   # else we estimate it by the following 
-  if(is.null(E)){
-    It <- (stats::qnorm(0.975)+stats::qnorm(0.9))^2/base::log(1-delta[1])^2
-  }
-  else{
-    It <- E/4
-  }
+  if(is.null(E)) It <- (stats::qnorm(0.975)+stats::qnorm(0.9))^2/base::log(1-delta[1])^2 else It <- E/4
   a <- r
   if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
-    assign("Power.sampling", parent.env(environment())$Power_sampling)
-    pp <- Power.sampling(R1,R2,a,It,alpha)
+    Power_sampling <- get("Power_sampling",envir = parent.env(environment()), mode = "function")
+    pp <- Power_sampling(R1,R2,a,It,alpha)
+  }
+  else{
+    reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE)
+    pp <- Power_sampling(R1,R2,a,It,alpha)
   }
   
   return(list(alpha=alpha, power=pp))

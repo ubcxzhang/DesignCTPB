@@ -25,33 +25,33 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   }
   a <- r
   if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
-    assign("Power_sampling", parent.env(environment())$Power_sampling)
+    Power_sampling <- get("Power_sampling",envir = parent.env(environment()), mode = "function")
     estimate_point <- power_estimator(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   }
   else{
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE) # If Power_sampling not exist in the parent envir, source into the current environment
-    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+    estimate_point <- power_estimator(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   }
   
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
-  eval(parse(text=paste( paste0("X",1:length(r),"="," estimate_alpha[,",1:length(r), "]",collapse = ";"), sep='')))
-  estimate_model <- suppressWarnings(fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(r)-1),collapse = ","), ")",sep=''))),Y,m = 5))
-  eval(parse(text=paste( paste0("X",1:(length(r)-1),".max=","X",1:(length(r)-1),"[which.max(Y)]",collapse = ";"), sep='')))
+  eval(parse(text=paste( paste0("X",1:length(a),"="," estimate_alpha[,",1:length(a), "]",collapse = ";"), sep='')))
+  estimate_model <- suppressWarnings(fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(a)-1),collapse = ","), ")",sep=''))),Y,m = 5))
+  eval(parse(text=paste( paste0("X",1:(length(a)-1),".max=","X",1:(length(a)-1),"[which.max(Y)]",collapse = ";"), sep='')))
   y <- function(x){
 
     x <- t(x)
-    names(x) <- paste("X",1:(length(r)-1), sep='')
+    names(x) <- paste("X",1:(length(a)-1), sep='')
     new <- data.frame(x)
     p =-stats::predict(estimate_model,new)
     return(p)
   }
   
-  est <- stats::optim(eval(parse(text=paste( "c(",paste0("X",1:(length(r)-1),".max",collapse = ","), ")",sep='')))
+  est <- stats::optim(eval(parse(text=paste( "c(",paste0("X",1:(length(a)-1),".max",collapse = ","), ")",sep='')))
                       ,y,lower = c(0,0),upper = c(0.025,0.025), method = "L-BFGS-B")
   alphan <- alpha_kernel(c(est$par), r=r,sig.lv = 0.025)
-  res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("opt-alpha",1:length(r), sep=''),'opt-power')
+  res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("opt-alpha",1:length(a), sep=''),'opt-power')
   return(res)
 }
 
