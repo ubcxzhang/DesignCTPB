@@ -7,7 +7,7 @@
 #' py_ini()
 #' }
 py_ini <- function(){
-  reticulate::py_config()
+  
   reticulate::py_run_string("import numba; numba.cuda.select_device(0)", convert = TRUE)
   return("Reticulate environment has been set up successfully!")
 }
