@@ -89,7 +89,7 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   sigma2 <- diag(sig)%*%sigma1%*%diag(sig)
   
   
-  #overall drug effect = lower_bio_eff
+  # overall drug effect = lower_bio_eff
   # calculate the mean for the drug effect in each subset
   mean2 <- -base::log(1-delta)
   #generate random vectors for sampling
@@ -111,18 +111,11 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   else{
     It <- E/4
   }
+  a <- r
   if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
     assign("Power.sampling", parent.env(environment())$Power_sampling)
-    pp <- Power.sampling(R1,R2,r,It,alpha)
+    pp <- Power.sampling(R1,R2,a,It,alpha)
   }
-  # else if(exists("Power_sampling", where = parent.env(parent.env(environment())))){
-  #   assign(Power_sampling, Power_sampling, envir = parent.env(parent.env(environment())))
-  #   pp <- Power_sampling(R1,R2,r,It,alpha)
-  # }
-  # else{
-  #   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = environment(), convert = TRUE) #If Power_sampling not exist in the parent envir, source into the current environment
-  #   pp <- Power_sampling(R1,R2,r,It,alpha)
-  # }
   
   return(list(alpha=alpha, power=pp))
 }

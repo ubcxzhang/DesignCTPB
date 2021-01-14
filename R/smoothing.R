@@ -14,7 +14,7 @@
 #' @examples 
 #' \dontrun{
 #' #In the example, we apply a linear scheme for the harzard reduction 
-#' alpha_slpit(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
+#' alpha_split(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
 #'}
 #' @export
 #' 
@@ -23,9 +23,10 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
+  a <- r
   if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
     assign("Power_sampling", parent.env(environment())$Power_sampling)
-    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+    estimate_point <- power_estimator(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   }
   else{
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE) # If Power_sampling not exist in the parent envir, source into the current environment
@@ -36,12 +37,10 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   ## Fit a thin plate splines
   Y <- estimate_power 
   eval(parse(text=paste( paste0("X",1:length(r),"="," estimate_alpha[,",1:length(r), "]",collapse = ";"), sep='')))
-  #X1 <- estimate_alpha[,1]; X2 <- estimate_alpha[,2]
   estimate_model <- suppressWarnings(fields::Tps(eval(parse(text=paste("cbind(" ,paste0("X",1:(length(r)-1),collapse = ","), ")",sep=''))),Y,m = 5))
   eval(parse(text=paste( paste0("X",1:(length(r)-1),".max=","X",1:(length(r)-1),"[which.max(Y)]",collapse = ";"), sep='')))
-  #X1.max = X1[which.max(Y)];X2.max = X2[which.max(Y)]
   y <- function(x){
-    #new <- data.frame(X1=x[1],X2=x[2])
+
     x <- t(x)
     names(x) <- paste("X",1:(length(r)-1), sep='')
     new <- data.frame(x)
@@ -120,10 +119,10 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = environment(), convert = TRUE) # source python4R.py into the environment
   optim_res <- matrix(rep(0,nrow(r_set)*(n_dim+1)), nrow=nrow(r_set))
   for(ii in 1:nrow(r_set)){
-    r <- r_set[ii,]
+    a <- r_set[ii,]
     sig <- SIGMA[ii,]# If SIGMA is null then sig is null too, else sig is the user specified value
     delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
-    optim_res[ii,] <- alpha_split(r,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd, seed)
+    optim_res[ii,] <- alpha_split(a,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd, seed)
   }
   Res <- cbind(r_set, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
   return(Res)
