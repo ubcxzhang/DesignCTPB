@@ -23,7 +23,15 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
-  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
+    assign("Power_sampling", parent.env(environment())$Power_sampling)
+    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  }
+  else{
+    reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE) # If Power_sampling not exist in the parent envir, source into the current environment
+    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  }
+  
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
@@ -53,7 +61,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
 #' @param m integer, the number of grid points in each dimension, and we suggest m around 20 for 3 dimension
 #' @param n_dim integer for the dimension, which is equal to the number of sub-population plus 1
 #' @return matrix of setting the proportion of the population by given specific dimension and density in each dimension
-#' @export
+
 r_setting <- function(m, n_dim){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
@@ -82,23 +90,8 @@ r_setting <- function(m, n_dim){
 }
 
 
-#' The optimal results given the grid setting of proportions for each sub-population
-#' @description This function is to obtain the optimal results given grid points of r setting by running alpha_split(). 
-#'
-#' @param m integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension
-#' @param n_dim integer, the number of dimension
-#' @param r_set the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}
-#' @param N1 integer, which is fixed as 10240 in our package
-#' @param N2 integer, which is fixed as 20480 in our package
-#' @param N3 integer, the number of grid point for the sig.lv, which should be the multiples of 5, because we apply 5 stream parallel
-#' @param E integer, the total number of events for the Phase 3 clinical trail, if not specified by user, then an estimation will apply
-#' @param SIGMA the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set) 
-#' @param sd_full a numeric number, which denotes the prior information of standard deviation for the harzard reduction if sig is not specified by user, then sd_full must has an input value to define the standard deviation of the full population
-#' @param DELTA matrix, each row is an vector stands for the point estimation of harzard reduction in prior information corresponds to the r setting, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
-#' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
-#' @param seed integer,  seed for random number generation
-#' @return matrix of the optimal results: the optimal power values, the corresponding alpha and the proportion for each sub-population
-#'
+# The optimal results given the grid setting of proportions for each sub-population
+
 Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, seed){
   if(!is.null(r_set)){
     if(ncol(r_set)!=n_dim){
@@ -124,7 +117,7 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
       stop("The inputed DELTA not coincides with r_set! Plz check with r_setting(m,n_dim) or your input r_set and decide each delta for each r setting.")
     }
   }
-  
+  reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = environment(), convert = TRUE) # source python4R.py into the environment
   optim_res <- matrix(rep(0,nrow(r_set)*(n_dim+1)), nrow=nrow(r_set))
   for(ii in 1:nrow(r_set)){
     r <- r_set[ii,]

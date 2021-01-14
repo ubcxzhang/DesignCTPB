@@ -64,11 +64,13 @@ data("res_strong")
 ```
 
 
-```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
+```{r eval=FALSE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE, include=FALSE}
+# Not show 
 res_strong$plot_power
 ```
 
-```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
+```{r eval=FALSE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE, include=FALSE}
+# Not show
 res_strong$plot_alpha
 ```
 

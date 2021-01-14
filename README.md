@@ -47,15 +47,15 @@ mnormt/fields/plotly/dply
 
 ## Python Dependencies:
 
-Python 3.6.3 or later\
-numba 0.46.0 or later\
+Python >=3.6.3
+numba >=0.46.0 
 scipy/numpy/pandas
 
 ## GPU and other Dependency 
-### Note that we develop our package under this cuda version, while we are still testing for other versions
+
 
 gcc/7.3.0\
-CUDA 9.2.148
+CUDA Tookit >=9.0 
 
 
 

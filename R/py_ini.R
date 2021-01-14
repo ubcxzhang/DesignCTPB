@@ -8,8 +8,6 @@
 #' }
 py_ini <- function(){
   reticulate::py_config()
-  reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = .GlobalEnv, convert = TRUE) # source python4R.py into the environment
   reticulate::py_run_string("import numba; numba.cuda.select_device(0)", convert = TRUE)
-  #assign("Power.sampling",  Power_sampling, envir = .GlobalEnv, inherits=TRUE) # set Power.sampling as an global function
   return("Reticulate environment has been set up successfully!")
 }
