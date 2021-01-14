@@ -23,7 +23,15 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
   }
-  estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
+    assign("Power_sampling", parent.env(environment())$Power_sampling)
+    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  }
+  else{
+    reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE) # If Power_sampling not exist in the parent envir, source into the current environment
+    estimate_point <- power_estimator(r, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+  }
+  
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
   ## Fit a thin plate splines
   Y <- estimate_power 
@@ -53,7 +61,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
 #' @param m integer, the number of grid points in each dimension, and we suggest m around 20 for 3 dimension
 #' @param n_dim integer for the dimension, which is equal to the number of sub-population plus 1
 #' @return matrix of setting the proportion of the population by given specific dimension and density in each dimension
-#' @export
+
 r_setting <- function(m, n_dim){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
@@ -109,7 +117,7 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
       stop("The inputed DELTA not coincides with r_set! Plz check with r_setting(m,n_dim) or your input r_set and decide each delta for each r setting.")
     }
   }
-  
+  reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = environment(), convert = TRUE) # source python4R.py into the environment
   optim_res <- matrix(rep(0,nrow(r_set)*(n_dim+1)), nrow=nrow(r_set))
   for(ii in 1:nrow(r_set)){
     r <- r_set[ii,]

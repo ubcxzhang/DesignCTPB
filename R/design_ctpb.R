@@ -15,7 +15,7 @@
 #' @param seed integer,  seed for random number generation
 #' @return list of 5 parts: plot_power: 3-d plot of the optimal power values versus r2 and r3; plot_alpha: 3-d plot of the optimal alpha-split values versus r2 and r3; opt_r_split: the optimal choice of proportion for each sub-population; opt_power: the optimal power values with the optimal r choice; opt_alpha_split: the optimal alpha split with the optimal r choice
 #' @details the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
-#'
+#' @seealso Grid setting of proportions for each sub-population [r_setting()] and [alpha_split()] 
 #' @examples
 #' \dontrun{
 #' # the default setting of our paper's strong biomarker effect 

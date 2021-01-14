@@ -58,14 +58,7 @@ Alpha <- function(r, N3){
 #' @param seed integer,  seed for random number generation
 #' @details We interface python by reticulate package to utilize numba(cuda version) module to accelerate calculation. 
 #' @return list of 2 parts of the sampling points given specific r; alpha is the matrix as each row is the given sig.lv for each population; power is the corresponding power values given each row of the alpha
-#' @examples
-#' \dontrun{
-#' # In the following example, we set the proportion of each sub-population as 0.5 and 0.2, 
-#' #the number of events is 600, the standard deviation for each subset is denoted as sig 
-#' #and the harzard reduction ratio is delta=c(0.2,0.25,0.28) for each population
-#' power_estimator(r=c(1,0.5,0.1),N3=3000,E=600,sig=c(0.18,0.25,0.5),delta=c(0.2,0.25,0.28))
-#' }
-#' @export
+
 
 power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
   n_dim <- length(r)
@@ -118,9 +111,18 @@ power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_
   else{
     It <- E/4
   }
-  
-  pp <- Power_sampling(R1,R2,r,It,alpha)
-  #pp <- Power_sampling(R1,R2,r,It,alpha)
+  if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
+    assign("Power.sampling", parent.env(environment())$Power_sampling)
+    pp <- Power.sampling(R1,R2,r,It,alpha)
+  }
+  # else if(exists("Power_sampling", where = parent.env(parent.env(environment())))){
+  #   assign(Power_sampling, Power_sampling, envir = parent.env(parent.env(environment())))
+  #   pp <- Power_sampling(R1,R2,r,It,alpha)
+  # }
+  # else{
+  #   reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir = environment(), convert = TRUE) #If Power_sampling not exist in the parent envir, source into the current environment
+  #   pp <- Power_sampling(R1,R2,r,It,alpha)
+  # }
   
   return(list(alpha=alpha, power=pp))
 }
