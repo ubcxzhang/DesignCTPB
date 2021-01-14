@@ -15,16 +15,15 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 
 ## How to run in R:
 
-### Setting Python environment and load package
+### Auto-Setting Python environment and loading package
 library(DesignCTPB)\
-create_venv(reticulate_venv="designctpb_numba",py_path=NULL) # user could name the python environment as he/she likes, also user can specify the python path, otherwise the default python will be applied\
-py_initial(reticulate_venv="designctpb_numba")
+py_ini()
 
 ### Calculating optimal alpha-split for a given setting of input parameters
-alpha_split(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL)
+alpha_split(r=c(1,0.5,0.3),N3=2000,sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
 
 ### Calculating optimal alpha-split for many settings of r values (i.e. size of nested subpopulations), and visualize their results and calculate optimal choice of r values
-res <- design_ctpb(m=24, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL)\
+res <- design_ctpb(m=24, n_dim=3, N3=2000, sd_full=1/sqrt(20),delta_linear_bd=c(0.2,0.8))\
 res$plot_alpha # *<font face = "Times New Roman">to see the 3-d rotatable plot of optimal alpha versus r2 and r3.</font>*\
 res$plot_power # *<font face = "Times New Roman">to see the 3-d rotatable plot of optimal power versus r2 and r3.</font>*\
 res$opt_r_split\
@@ -33,7 +32,7 @@ res$opt_power
 
 **The default inputs give the results of the strong biomarker effect in our paper. Users can change the values of input parameters to generate plot and obtain the optimal alpha and r values. <!--In practice, we never design nested-population clinical trails where there is no biomarker effect. So we do not suggest users to use our settings as "the no biomarker effect" example in our paper, which is only for demostrate when no biomarker effect, our method make the correct choice of put all alpha- values on full population. -->
 
-In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the inputed matrix should coincides with the matrix of r-split setting. \
+In our package, the user can specify the standard deviation of each population by giving SIGMA as input, and the harzard reduction rate DELTA for each population. Just give input values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting. \
   *<font face = "Times New Roman">(e.g. if m=24 and n_dim=3, which means we are going to have 276 r-split setting(like our default setting), so each row of the SIGMA(DELTA) matrix should coincides with the corresponding row of r-split setting).</font>*\
 For obtaining the r-split setting, user can specify it personalized or follow our r_setting(m,n_dim) function. 
 
@@ -48,15 +47,15 @@ mnormt/fields/plotly/dply
 
 ## Python Dependencies:
 
-Python 3.6.3 or later\
-numba 0.46.0 or later\
+Python >=3.6.3
+numba >=0.46.0 
 scipy/numpy/pandas
 
 ## GPU and other Dependency 
-### Note that we develop our package under this cuda version, while we are still testing for other versions
+
 
 gcc/7.3.0\
-CUDA 9.2.148
+CUDA Tookit >=9.0 
 
 
 
