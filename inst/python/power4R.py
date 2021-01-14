@@ -45,14 +45,14 @@ def power_kernel(R1,R2,power):
   
 def Power_sampling(p_R1,p_R2,p_r,p_It,p_alpha):
     p_alpha = np.array(p_alpha)
-    N=p_alpha.shape[0]
-    n=p_alpha.shape[1]
+    p_N=p_alpha.shape[0]
+    p_n=p_alpha.shape[1]
     p_a = np.empty_like(p_alpha)
-    for i in range(N):
-      for j in range(n):
+    for i in range(p_N):
+      for j in range(p_n):
         p_a[i,j]=norm.ppf(1-p_alpha[i,j])
-    r_It=np.zeros(n*n).reshape(n,n)
-    for i in range(n):
+    r_It=np.zeros(p_n*p_n).reshape(p_n,p_n)
+    for i in range(p_n):
         r_It[i,i]=sqrt(p_r[i]*p_It)
     
     random1 =  p_R1
@@ -63,7 +63,7 @@ def Power_sampling(p_R1,p_R2,p_r,p_It,p_alpha):
     for j in range(5):
         streams.append(cuda.stream())
   
-    power = np.empty(N)
+    power = np.empty(p_N)
     
     R1_0 = cuda.to_device(random1,stream=streams[0])
     R1_1 = cuda.to_device(random1,stream=streams[1])
@@ -73,7 +73,7 @@ def Power_sampling(p_R1,p_R2,p_r,p_It,p_alpha):
     
     threads_per_block=512
     blocks = 40
-    for i in range(N//5):
+    for i in range(p_N//5):
         
         random2_0 = p_a[i*5  ,]-np.dot(random2,r_It)
         random2_1 = p_a[i*5+1,]-np.dot(random2,r_It)
