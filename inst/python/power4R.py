@@ -43,27 +43,27 @@ def power_kernel(R1,R2,power):
 
   
   
-def Power_sampling(R1,R2,r,It,alpha):
-    alpha = np.array(alpha)
-    N=alpha.shape[0]
-    n=alpha.shape[1]
-    a = np.empty_like(alpha)
-    for i in range(N):
-      for j in range(n):
-        a[i,j]=norm.ppf(1-alpha[i,j])
-    r_It=np.zeros(n*n).reshape(n,n)
-    for i in range(n):
-        r_It[i,i]=sqrt(r[i]*It)
+def Power_sampling(p_R1,p_R2,p_r,p_It,p_alpha):
+    p_alpha = np.array(p_alpha)
+    p_N=p_alpha.shape[0]
+    p_n=p_alpha.shape[1]
+    p_a = np.empty_like(p_alpha)
+    for i in range(p_N):
+      for j in range(p_n):
+        p_a[i,j]=norm.ppf(1-p_alpha[i,j])
+    r_It=np.zeros(p_n*p_n).reshape(p_n,p_n)
+    for i in range(p_n):
+        r_It[i,i]=sqrt(p_r[i]*p_It)
     
-    random1 =  R1
-    random2 = R2
+    random1 =  p_R1
+    random2 = p_R2
     #5 streams in parallel 
     num_streams = 5
     streams=list()
     for j in range(5):
         streams.append(cuda.stream())
   
-    power = np.empty(N)
+    power = np.empty(p_N)
     
     R1_0 = cuda.to_device(random1,stream=streams[0])
     R1_1 = cuda.to_device(random1,stream=streams[1])
@@ -73,13 +73,13 @@ def Power_sampling(R1,R2,r,It,alpha):
     
     threads_per_block=512
     blocks = 40
-    for i in range(N//5):
+    for i in range(p_N//5):
         
-        random2_0 = a[i*5  ,]-np.dot(random2,r_It)
-        random2_1 = a[i*5+1,]-np.dot(random2,r_It)
-        random2_2 = a[i*5+2,]-np.dot(random2,r_It)
-        random2_3 = a[i*5+3,]-np.dot(random2,r_It)
-        random2_4 = a[i*5+4,]-np.dot(random2,r_It)
+        random2_0 = p_a[i*5  ,]-np.dot(random2,r_It)
+        random2_1 = p_a[i*5+1,]-np.dot(random2,r_It)
+        random2_2 = p_a[i*5+2,]-np.dot(random2,r_It)
+        random2_3 = p_a[i*5+3,]-np.dot(random2,r_It)
+        random2_4 = p_a[i*5+4,]-np.dot(random2,r_It)
     
         R2_0 = cuda.to_device(random2_0,stream=streams[0])
         power_0 = cuda.device_array(shape=5120*4,dtype=np.float64,stream=streams[0])
