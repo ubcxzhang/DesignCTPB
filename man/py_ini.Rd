@@ -7,10 +7,10 @@
 py_ini()
 }
 \value{
-the physical address of R function Power_sampling, converted from python file "python4R.py"
+Error in CudaSupport means there is no cuda device or cuda driver lib cannot be found; otherwise a message of successfully set up the environment will be shown
 }
 \description{
-A utility function to initiate the python environment and source the python function into the R environment and set it as global function.
+A utility function to initiate the python environment , check CUDA device and source the python function into the R environment and set it as global function.
 }
 \examples{
 \dontrun{
