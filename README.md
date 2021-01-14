@@ -17,7 +17,6 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 
 ### Auto-Setting Python environment and loading package
 library(DesignCTPB)\
-py_ini()
 
 ### Calculating optimal alpha-split for a given setting of input parameters
 alpha_split(r=c(1,0.5,0.3),N3=2000,sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
