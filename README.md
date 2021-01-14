@@ -16,7 +16,7 @@ devtools::install_github("ubcxzhang/DesignCTPB")
 ## How to run in R:
 
 ### Auto-Setting Python environment and loading package
-library(DesignCTPB)\
+library(DesignCTPB)
 
 ### Calculating optimal alpha-split for a given setting of input parameters
 alpha_split(r=c(1,0.5,0.3),N3=2000,sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
