@@ -47,6 +47,6 @@ First, the function fits a smooth surface given grid values of alpha(that's sig.
 \examples{
 \dontrun{
 #In the example, we apply a linear scheme for the harzard reduction 
-alpha_slpit(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
+alpha_split(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
 }
 }
