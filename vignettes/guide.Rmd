@@ -27,15 +27,10 @@ This package can guide researchers to do clinical trials with nested sub-populat
 
 # How to
 
-```{r library, echo = T, results = 'hide', warning=FALSE, message=FALSE}
+```{r library, eval=FALSE, message=FALSE, warning=FALSE}
 library(DesignCTPB)
 ```
 
-## Auto-setup the python environment
-
-```{r python initiate, warning=FALSE, eval=FALSE}
-py_ini()
-```
 
 ## Calculating optimal alpha-split for a given setting of proportion of each subpopulation
 ```{r alpha_split, message=FALSE, warning=FALSE, eval=FALSE}
@@ -45,9 +40,9 @@ alpha_split()# the default setting will give an optimal results of 3-dimensional
 
 ## Calculating optimal alpha-split for variate settings of r values (i.e. size of nested subpopulations), and visualize their results, calculate optimal choice of the proportion for each subset
 
-In this guidance, we show the results presented in our paper, which are the simulation examples for the strong and weak biomarker effect conditions. The following chunk shows how to get the results. m is the density value for grid setting or r(the proportion for each sub-population); n_dim denotes the dimension; N1 and N2 are fixed and we suggest do not change them otherwise have to change the corresponding the number of threads and block in python code. N3 could be changed and has to be the multiplier of 5. E is the total number of events in the clinical trial, if not specified, we will apply an estimated information units, please refer to formula(10) in our paper. SIGMA is the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set). For simplify, we apply $\sigma_i = \frac{1}{\sqrt{20*r_i}}$ which has been explained in the paper. DELTA is the matrix of harzard reduction conrresponding to the r setting too. While for simplify, we use a linear scheme of harzard reduction, which means $\Delta_i = 0.8-0.6*r_i$ in our example below. 
+In this guidance, we show the results presented in our paper, which are the simulation examples for the strong and weak biomarker effect conditions. The following chunk shows how to get the results. m is the density value for grid setting or r(the proportion for each sub-population); n_dim denotes the dimension; N1 and N2 are fixed and we suggest do not change them otherwise have to change the corresponding the number of threads and block in python code. N3 could be changed and has to be the multiplier of 5. E is the total number of events in the clinical trial, if not specified, we will apply an estimated information units, please refer to formula(10) in our paper. SIGMA is the matrix of standard deviation of each sub-population, which should coincide with r_set or the default setting of each sub-population(i.e each entry of each row coincides to the corresponding entry in r_set). For simplify, we apply $\sigma_i = \frac{1}{\sqrt{20*r_i}}$ which has been explained in the paper. DELTA is the matrix of harzard reduction corresponding to the r setting too. While for simplify, we use a linear scheme of harzard reduction, which means $\Delta_i = 0.8-0.6*r_i$ in our example below. 
 
-```{r visulization, eval=FALSE, warning=FALSE, tidy=TRUE}
+```{r visulization, eval=FALSE, warning=FALSE}
 res <- design_ctpb(m=24, n_dim=3, sd_full=1/sqrt(20),delta_linear_bd=c(0.2,0.8))
 res$plot_alpha # to see the 3-d rotatable plot of optimal alpha versus r2 and r3.
 res$plot_power # to see the 3-d rotatable plot of optimal power versus r2 and r3.
@@ -58,46 +53,11 @@ res$opt_power
 
 For the time consuming problem, we load the pre-run data and show the results below.
 
-### Strong biomarker effect
-```{r load data strong}
-data("res_strong")
-```
-
-
-```{r eval=FALSE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE, include=FALSE}
-# Not show 
-res_strong$plot_power
-```
-
-```{r eval=FALSE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE, include=FALSE}
-# Not show
-res_strong$plot_alpha
-```
-
-
-```{r}
-#the optimal power of the optimal design
-res_strong$opt_power
-```
-
-Hence, for ths strong biomarker effect condition, the simulation suggests that 2-cutoff design is optimal, where the smallest subpopulation consists of 13.9\% of the full population, the larger one consists of nearly 40\%. Then the design seperats the full population into three populations with two nested subpopulations. The Type-I error rate for each population is allocated as below. 
-
-```{r}
-#the optimal alpha split of the optimal design
-res_strong$opt_alpha_split
-```
-
-And the maximized power for the optimal design is:
-
-```{r warning=FALSE}
-#optimal choice of each population's proportion
-res_strong$opt_r_split
-```
 
 ### Weak biomarker effect
 
-```{r load data week}
-data("res_weak")
+```{r}
+data(res_weak, package = "DesignCTPB")
 ```
 
 
@@ -122,14 +82,14 @@ res_weak$opt_power
 res_weak$opt_alpha_split
 ```
 
-For the weak biomarker effect, we find that $r_3 = 0$, which suggests only consider one subpopulation instead of two, reducing the optimization into two dimension. Then we have to compute the optimal alpha split in two dimension.
+For the weak biomarker effect, we find that $r_3 = 0$, which suggests only consider one sub-population instead of two, reducing the optimization into two dimension. Then we have to compute the optimal alpha split in two dimension.
 ```{r warning=FALSE, eval=FALSE}
 alpha_split(r=c(1,0.303),N3=100,sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.3))
 ```
 
 For another way, we could re-design the clinical trial in two dimension.
 
-```{r eval=FALSE, warning=FALSE, eval=FALSE}
+```{r eval=FALSE, warning=FALSE}
 r2 <- seq(0.025,1,by=0.025)
 res_2dim <- matrix(rep(0,3*length(r2)), ncol=3)
 for(ii in 1:length(r2)){
@@ -145,4 +105,40 @@ opt_r2
 opt_alpha
 ```
 
+
+### Strong biomarker effect
+```{r}
+data(res_strong, package = "DesignCTPB")
+```
+
+
+```{r eval=FALSE, warning=FALSE}
+# Not show 
+res_strong$plot_power
+```
+
+```{r eval=FALSE, warning=FALSE}
+# Not show
+res_strong$plot_alpha
+```
+
+
+```{r}
+#the optimal power of the optimal design
+res_strong$opt_power
+```
+
+Hence, for the strong biomarker effect condition, the simulation suggests that 2-cutoff design is optimal, where the smallest sub-population consists of 13.9\% of the full population, the larger one consists of nearly 40\%. Then the design separates the full population into three populations with two nested sub-populations. The Type-I error rate for each population is allocated as below. 
+
+```{r}
+#the optimal alpha split of the optimal design
+res_strong$opt_alpha_split
+```
+
+And the maximized power for the optimal design is:
+
+```{r warning=FALSE}
+#optimal choice of each population's proportion
+res_strong$opt_r_split
+```
 
