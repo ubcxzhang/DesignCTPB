@@ -17,7 +17,7 @@
 #' @details the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
 #' @seealso Grid setting of proportions for each sub-population [r_setting()] and [alpha_split()] 
 #' @examples
-#' \donttest{
+#' \dontrun{
 #' # the default setting of our paper's strong biomarker effect 
 #' res <- design_ctpb()
 #' res$plot_power # to see 3-d plot for the optimal power versus r2 and r3
