@@ -50,7 +50,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   
   est <- stats::optim(eval(parse(text=paste( "c(",paste0("X",1:(length(a)-1),".max",collapse = ","), ")",sep='')))
                       ,y,lower = c(0,0),upper = c(0.025,0.025), method = "L-BFGS-B")
-  alphan <- alpha_kernel(c(est$par), r=r,sig.lv = 0.025)
+  alphan <- alpha_kernel(c(est$par), r=a,sig.lv = 0.025)
   res <- t(c(est$par, alphan, -est$value)); colnames(res) <- c(paste("opt-alpha",1:length(a), sep=''),'opt-power')
   return(res)
 }
