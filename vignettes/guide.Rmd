@@ -57,29 +57,29 @@ For the time consuming problem, we load the pre-run data and show the results be
 ### Weak biomarker effect
 
 ```{r}
-data(res_weak, package = "DesignCTPB")
+data(ctpbw, package = "DesignCTPB")
 ```
 
 
 ```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
-res_weak$plot_power
+ctpbw$plot_power
 ```
 
 ```{r echo=TRUE, fig.height=8, fig.show='asis', fig.width=8, warning=FALSE}
-res_weak$plot_alpha
+ctpbw$plot_alpha
 ```
 
 ```{r warning=FALSE}
 #optimal choice of each population's proportion
-res_weak$opt_r_split
+ctpbw$opt_r_split
 ```
 ```{r}
 #the optimal power of the optimal design
-res_weak$opt_power
+ctpbw$opt_power
 ```
 ```{r}
 #the optimal alpha split of the optimal design
-res_weak$opt_alpha_split
+ctpbw$opt_alpha_split
 ```
 
 For the weak biomarker effect, we find that $r_3 = 0$, which suggests only consider one sub-population instead of two, reducing the optimization into two dimension. Then we have to compute the optimal alpha split in two dimension.
@@ -108,37 +108,37 @@ opt_alpha
 
 ### Strong biomarker effect
 ```{r}
-data(res_strong, package = "DesignCTPB")
+data(ctpbs, package = "DesignCTPB")
 ```
 
 
-```{r eval=FALSE, warning=FALSE}
+```{r warning=FALSE}
 # Not show 
-res_strong$plot_power
+ctpbs$plot_power
 ```
 
-```{r eval=FALSE, warning=FALSE}
+```{r  warning=FALSE}
 # Not show
-res_strong$plot_alpha
+ctpbs$plot_alpha
 ```
 
 
 ```{r}
 #the optimal power of the optimal design
-res_strong$opt_power
+ctpbs$opt_power
 ```
 
 Hence, for the strong biomarker effect condition, the simulation suggests that 2-cutoff design is optimal, where the smallest sub-population consists of 13.9\% of the full population, the larger one consists of nearly 40\%. Then the design separates the full population into three populations with two nested sub-populations. The Type-I error rate for each population is allocated as below. 
 
 ```{r}
 #the optimal alpha split of the optimal design
-res_strong$opt_alpha_split
+ctpbs$opt_alpha_split
 ```
 
 And the maximized power for the optimal design is:
 
 ```{r warning=FALSE}
 #optimal choice of each population's proportion
-res_strong$opt_r_split
+ctpbs$opt_r_split
 ```
 

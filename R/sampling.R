@@ -60,7 +60,7 @@ Alpha <- function(r, N3){
 #' @return list of 2 parts of the sampling points given specific r; alpha is the matrix as each row is the given sig.lv for each population; power is the corresponding power values given each row of the alpha
 
 
-power_estimator <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
+phat <- function(r,N1,N2,N3,E=NULL,sig=NULL,sd_full,delta=NULL,delta_linear_bd,seed=NULL){
   n_dim <- length(r)
   rr <- base::sqrt(r)
   mat <- rr%*%(1/t(rr))

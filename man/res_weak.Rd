@@ -1,6 +1,6 @@
-\name{res_weak}
-\alias{res_weak}
-\docType{data}
+\name{ctpbw}
+\alias{ctpbw}
+\docType{data} 
 \title{
 The clinical trial design for weak biomarker effect
 }
