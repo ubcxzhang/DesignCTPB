@@ -34,4 +34,4 @@ Suggests:
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
-SystemRequirements: pandoc (>= 1.12.3), openssl, NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
+SystemRequirements: pandoc (>= 1.12.3) and(or) pandoc-citeproc , openssl, NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
