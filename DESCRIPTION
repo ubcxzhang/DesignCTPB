@@ -27,11 +27,11 @@ Config/reticulate:
     )
   )
 Packaged: 2020-10-26 06:43:24 UTC; yitaolu
-Imports: reticulate, mnormt, fields, magrittr,plotly
+Imports: reticulate, mnormt, fields, magrittr,plotly, dplyr
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
-SystemRequirements: pandoc (>= 1.12.3), OpenSSL(>= 1.0.1), NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
+SystemRequirements: OpenSSL(>= 1.0.1), NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
