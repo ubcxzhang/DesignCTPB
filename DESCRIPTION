@@ -1,7 +1,7 @@
 Package: DesignCTPB
 Type: Package
 Title: Design Clinical Trials with Potential Biomarker Effect
-Version: 1.0.0
+Version: 1.0.1
 Authors@R: c(person("Yitao", "Lu", email = "yitaolu@uvic.ca", 
   role = c("aut","cre"),comment = c(ORCID = "0000-0002-0523-7416")), 
   person("Belaid", email = "bmoa@uvic.ca", 
@@ -27,11 +27,11 @@ Config/reticulate:
     )
   )
 Packaged: 2020-10-26 06:43:24 UTC; yitaolu
-Imports: reticulate, mnormt, fields, magrittr,dplyr,plotly
+Imports: reticulate, mnormt, fields, magrittr,plotly
 Suggests: 
     knitr,
     rmarkdown
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
-SystemRequirements: pandoc (>= 1.12.3) and(or) pandoc-citeproc , openssl, NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
+SystemRequirements: pandoc (>= 1.12.3), OpenSSL(>= 1.0.1), NVIDIA CUDA GPU with compute capability 3.0 or above and NVIDIA CUDA Toolkit 9.0 or above
