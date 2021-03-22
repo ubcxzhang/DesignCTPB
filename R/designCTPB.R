@@ -15,7 +15,7 @@
 #' @param seed integer,  seed for random number generation
 #' @return list of 5 parts: plot_power: 3-d plot of the optimal power values versus r2 and r3; plot_alpha: 3-d plot of the optimal alpha-split values versus r2 and r3; opt_r_split: the optimal choice of proportion for each sub-population; opt_power: the optimal power values with the optimal r choice; opt_alpha_split: the optimal alpha split with the optimal r choice
 #' @details the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
-#' @seealso Grid setting of proportions for each sub-population [r_setting()] and [alpha_split()] 
+#' @seealso Grid setting of proportions for each sub-population proportion() and alpha.split()
 #' @examples
 #' \dontrun{
 #' # the default setting of our paper's strong biomarker effect 
@@ -55,7 +55,7 @@ designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000,
       }
     }
     # 3d-plot of optimal power versus r2 & r3
-    if (requireNamespace("plotly", quietly=TRUE)){#requireNamespace("dplyr", quitely=TRUE)&&
+    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){
     fig.optim.power <-  magrittr::`%>%`(plotly::plot_ly(x=r2, y=r3, z=t(Power)),  magrittr::`%>%`(plotly::add_surface(),plotly::layout(scene=list(camera=list(eye=list(x=2, y=-1, z=0.34)),
                                                                                                                                                   xaxis = list(title = "r2"),
                                                                                                                                                   yaxis = list(title ="r3"),
@@ -90,7 +90,7 @@ designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000,
       }
     }
     # 3d-plot of optimal alpha versus r2 & r3
-    if (requireNamespace("plotly", quietly=TRUE)){ #requireNamespace("dplyr", quitely=TRUE)&&
+    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){ #requireNamespace("dplyr", quitely=TRUE)&&
     fig.alpha <- plotly::plot_ly() #showscale = FALSE)
     fig.alpha <- magrittr::`%>%`(fig.alpha,magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z=t(pre_alpha1)), magrittr::`%>%`(plotly::add_data(data1),plotly::add_markers(x=~r2, y=~r3, z=~alpha1, size=2,symbol= 0,name = "alpha1")))) 
     fig.alpha <- magrittr::`%>%`(fig.alpha, magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z= t(pre_alpha2),opacity = 0.98), magrittr::`%>%`( plotly::add_data(data2),plotly::add_markers(x=~r2, y=~r3, z=~alpha2, size=2,symbol= 100,name = "alpha2") ) ))
