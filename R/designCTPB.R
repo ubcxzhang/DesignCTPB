@@ -19,7 +19,7 @@
 #' @examples
 #' \dontrun{
 #' # the default setting of our paper's strong biomarker effect 
-#' res <- design_ctpb()
+#' res <- designCTPB()
 #' res$plot_power # to see 3-d plot for the optimal power versus r2 and r3
 #' res$plot_alpha # to see 3-d plot for the optimal alpha versus r2 and r3
 #' res$opt_r_split #  to see the optimal cutoff of the sub-population, 
@@ -28,7 +28,7 @@
 #' res$opt_alpha_split
 #'}
 #' @export
-design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL){
+designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000, E=NULL, SIGMA=NULL, sd_full=1/base::sqrt(20), DELTA=NULL, delta_linear_bd=c(0.2,0.8), seed=NULL){
   
   opt_res <- Optim_Res(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delta_linear_bd, seed)
   r_setting <- as.matrix(opt_res[,1:n_dim]); opt_alpha <- as.matrix(opt_res[,(n_dim+1):(2*n_dim)]); opt_power <- opt_res[,NCOL(opt_res)]
@@ -55,7 +55,7 @@ design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000
       }
     }
     # 3d-plot of optimal power versus r2 & r3
-    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){
+    if (requireNamespace("plotly", quietly=TRUE)){#requireNamespace("dplyr", quitely=TRUE)&&
     fig.optim.power <-  magrittr::`%>%`(plotly::plot_ly(x=r2, y=r3, z=t(Power)),  magrittr::`%>%`(plotly::add_surface(),plotly::layout(scene=list(camera=list(eye=list(x=2, y=-1, z=0.34)),
                                                                                                                                                   xaxis = list(title = "r2"),
                                                                                                                                                   yaxis = list(title ="r3"),
@@ -90,7 +90,7 @@ design_ctpb <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000
       }
     }
     # 3d-plot of optimal alpha versus r2 & r3
-    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){
+    if (requireNamespace("plotly", quietly=TRUE)){ #requireNamespace("dplyr", quitely=TRUE)&&
     fig.alpha <- plotly::plot_ly() #showscale = FALSE)
     fig.alpha <- magrittr::`%>%`(fig.alpha,magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z=t(pre_alpha1)), magrittr::`%>%`(plotly::add_data(data1),plotly::add_markers(x=~r2, y=~r3, z=~alpha1, size=2,symbol= 0,name = "alpha1")))) 
     fig.alpha <- magrittr::`%>%`(fig.alpha, magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z= t(pre_alpha2),opacity = 0.98), magrittr::`%>%`( plotly::add_data(data2),plotly::add_markers(x=~r2, y=~r3, z=~alpha2, size=2,symbol= 100,name = "alpha2") ) ))

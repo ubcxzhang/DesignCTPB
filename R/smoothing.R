@@ -14,11 +14,11 @@
 #' @examples 
 #' \dontrun{
 #' #In the example, we apply a linear scheme for the harzard reduction 
-#' alpha_split(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
+#' alpha.split(r=c(1,0.4,0.1), N3=2000, sd_full=1/sqrt(20),delta_linear_bd = c(0.2,0.8))
 #'}
 #' @export
 #' 
-alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL){
+alpha.split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL,sd_full=1/base::sqrt(20),delta=NULL,delta_linear_bd = c(0.2,0.8),seed=NULL){
   n_dim <- length(r)
   if(n_dim>5){
     stop("Right now, we only support 5 dimension alpha-split!")
@@ -26,11 +26,11 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
   a <- r
   if(exists("Power_sampling", where = parent.env(environment()))){ # check whether the Power_sampling exists in the parent envir
     Power_sampling <- get("Power_sampling",envir = parent.env(environment()), mode = "function")
-    estimate_point <- power_estimator(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+    estimate_point <- phat(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   }
   else{
     reticulate::source_python(system.file("python","power4R.py",package="DesignCTPB"), envir =environment(), convert = TRUE) # If Power_sampling not exist in the parent envir, source into the current environment
-    estimate_point <- power_estimator(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
+    estimate_point <- phat(a, N1, N2, N3, E, sig, sd_full, delta, delta_linear_bd ,seed)
   }
   
   estimate_power <- as.vector(unlist(estimate_point$power)); estimate_alpha <- as.matrix(estimate_point$alpha)
@@ -61,7 +61,7 @@ alpha_split <- function(r=c(1,0.5,0.3),N1=20480,N2=10240,N3=2000,E=NULL,sig=NULL
 #' @param n_dim integer for the dimension, which is equal to the number of sub-population plus 1
 #' @return matrix of setting the proportion of the population by given specific dimension and density in each dimension
 
-r_setting <- function(m, n_dim){
+proportion <- function(m, n_dim){
   set <- seq(0.05,0.99,by=1/(m+1))
   flag_s <- n_dim -1
   flag_e <- m
@@ -98,7 +98,7 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
     }
   }
   if(is.null(r_set)){
-    r_set <- r_setting(m, n_dim)
+    r_set <- proportion(m, n_dim)
   }
   if(!is.null(SIGMA)){
     if(ncol(SIGMA)!=n_dim){
@@ -122,7 +122,7 @@ Optim_Res<- function(m, r_set, n_dim, N1, N2, N3, E, SIGMA, sd_full, DELTA, delt
     a <- r_set[ii,]
     sig <- SIGMA[ii,]# If SIGMA is null then sig is null too, else sig is the user specified value
     delta <- DELTA[ii]# If DELTA is null then delta is null too, else is the user specified value
-    optim_res[ii,] <- alpha_split(a,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd, seed)
+    optim_res[ii,] <- alpha.split(a,N1,N2,N3,E,sig,sd_full,delta,delta_linear_bd, seed)
   }
   Res <- cbind(r_set, optim_res); colnames(Res) <- c(paste("r", 1:n_dim, sep=""), paste("alpha", 1:n_dim, sep=""), "power")
   return(Res)

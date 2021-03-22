@@ -1,5 +1,5 @@
-\name{res_strong}
-\alias{res_strong}
+\name{ctpbs}
+\alias{ctpbs}
 \docType{data}
 \title{
 The clinical trial design for strong biomarker effect
