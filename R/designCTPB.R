@@ -1,6 +1,5 @@
 #' Optimal design for 3-dimensional with visulization
 #' @description This function uses GPU parallel computing to calculate the high dimensional integral and apply the smoothing method(thin plate splines) to get the optimum of power values given the prior information: the harzard reduction distribution. This function guides to choose the size of nested populations, i.e. find optimal r-values. The function visualizes and optimizes r-values, but only supports 3-dimension. The optimization of r-values in more than 3-dimension is trivial, but visualization can be too hard.
-#'
 #' @param m integer, the number of grid points in each dimension for r, and we suggest m around 20 is enough for 3 dimension
 #' @param n_dim integer, the number of dimension
 #' @param r_set the matrix of proportion for each sub-population, r_1 is 1, r_i>r_{i+1}
@@ -13,6 +12,7 @@
 #' @param DELTA matrix, each row is an vector stands for the point estimation of harzard reduction in prior information corresponds to the r setting, if not specified we apply a linear scheme by giving bound to the linear harzard reduction 
 #' @param delta_linear_bd vector of length 2, specifying the upper bound and lower bound for the harzard reduction; if user don't specify the delta for each sub-population, then the linear scheme will apply and the input is a must. 
 #' @param seed integer,  seed for random number generation
+#' @importFrom magrittr %>%
 #' @return list of 5 parts: plot_power: 3-d plot of the optimal power values versus r2 and r3; plot_alpha: 3-d plot of the optimal alpha-split values versus r2 and r3; opt_r_split: the optimal choice of proportion for each sub-population; opt_power: the optimal power values with the optimal r choice; opt_alpha_split: the optimal alpha split with the optimal r choice
 #' @details the standard deviation of each population can be specified by giving SIGMA as input, and specify the harzard reduction rate DELTA for each population. Just enter values to SIGMA and DELTA, but note that the entered matrix should coincides with the matrix of r-split setting.
 #' @seealso Grid setting of proportions for each sub-population proportion() and alpha.split()

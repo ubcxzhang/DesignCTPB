@@ -66,5 +66,5 @@ res$opt_alpha_split
 }
 }
 \seealso{
-Grid setting of proportions for each sub-population [r_setting()] and [alpha_split()]
+Grid setting of proportions for each sub-population proportion() and alpha.split()
 }
