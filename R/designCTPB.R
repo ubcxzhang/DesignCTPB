@@ -55,13 +55,15 @@ designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000,
       }
     }
     # 3d-plot of optimal power versus r2 & r3
-    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){
-    fig.optim.power <-  magrittr::`%>%`(plotly::plot_ly(x=r2, y=r3, z=t(Power)),  magrittr::`%>%`(plotly::add_surface(),plotly::layout(scene=list(camera=list(eye=list(x=2, y=-1, z=0.34)),
-                                                                                                                                                  xaxis = list(title = "r2"),
-                                                                                                                                                  yaxis = list(title ="r3"),
-                                                                                                                                                  zaxis = list(title = "Optimal Power ")))) 
-    )
+    if (requireNamespace("plotly", quietly=TRUE) && requireNamespace("magrittr", quietly=TRUE)){
+        fig.optim.power <- plotly::plot_ly(x=r2, y=r3, z=t(Power)) %>% plotly::add_surface() %>% plotly::layout(scene = list(camera=list(
+          eye = list(x=2, y=-1, z=0.34)),
+          xaxis = list(title = "r2"),
+          yaxis = list(title ="r3"),
+          zaxis = list(title = "Optimal Power ")))
     }
+    
+    
      #alpha
     f1 = function(x,y){
       new=data.frame(r2=x,r3=y)
@@ -90,14 +92,17 @@ designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000,
       }
     }
     # 3d-plot of optimal alpha versus r2 & r3
-    if (requireNamespace("dplyr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){ #requireNamespace("dplyr", quitely=TRUE)&&
-    fig.alpha <- plotly::plot_ly() #showscale = FALSE)
-    fig.alpha <- magrittr::`%>%`(fig.alpha,magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z=t(pre_alpha1)), magrittr::`%>%`(plotly::add_data(data1),plotly::add_markers(x=~r2, y=~r3, z=~alpha1, size=2,symbol= 0,name = "alpha1")))) 
-    fig.alpha <- magrittr::`%>%`(fig.alpha, magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z= t(pre_alpha2),opacity = 0.98), magrittr::`%>%`( plotly::add_data(data2),plotly::add_markers(x=~r2, y=~r3, z=~alpha2, size=2,symbol= 100,name = "alpha2") ) ))
-    fig.alpha <- magrittr::`%>%`(fig.alpha,  magrittr::`%>%`(plotly::add_surface(x=r2,y=r3,z=t(pre_alpha3),opacity = 0.98), magrittr::`%>%`(plotly::add_data(data3),  magrittr::`%>%`(plotly::add_markers(x=~r2, y=~r3, z=~alpha3, size=2,symbol= 200,name = "alpha3"), plotly::layout(scene=list(camera=list(eye=list(x=2, y=-1, z=0.34)),
-                                                                                                                                                                                                                                                                                                   xaxis = list(title = "r2"),
-                                                                                                                                                                                                                                                                                                   yaxis = list(title ="r3"),
-                                                                                                                                                                                                                                                                                                   zaxis = list(title = "Optimal alpha"))) ))))}      
+    if (requireNamespace("magrittr", quitely=TRUE)&&requireNamespace("plotly", quietly=TRUE)){
+      fig.alpha <- plotly::plot_ly()
+      fig.alpha <- fig.alpha %>% plotly::add_surface(x=r2,y=r3,z=t(pre_alpha1)) %>% plotly::add_data(data1) %>% plotly::add_markers(x=~r2, y=~r3, z=~alpha1, size=2,symbol= 0,name = "alpha1")
+      fig.alpha <- fig.alpha %>% plotly::add_surface(x=r2,y=r3,z= t(pre_alpha2),opacity = 0.98) %>% plotly::add_data(data2) %>% plotly::add_markers(x=~r2, y=~r3, z=~alpha2, size=2,symbol= 100,name = "alpha2") 
+      fig.alpha <- fig.alpha %>% plotly::add_surface(x=r2,y=r3,z=t(pre_alpha3),opacity = 0.98) %>% plotly::add_data(data3) %>% plotly::add_markers(x=~r2, y=~r3, z=~alpha3, size=2,symbol= 200,name = "alpha3")
+      fig.alpha <- fig.alpha %>% plotly::layout(scene=list(
+        camera=list(eye = list(x=2, y=-1, z=0.34)),
+        xaxis = list(title = "r2"),
+        yaxis = list(title ="r3"),
+        zaxis = list(title = "Optimal alpha")))
+    }
     # obtain the optimal power at cutoff of r2 and r3 to decide whether cut or not
     y <- function(x){
       new=data.frame(r2=x[1],r3=x[2])
@@ -117,4 +122,9 @@ designCTPB <- function(m=24, r_set = NULL, n_dim=3, N1=20480, N2=10240, N3=2000,
   
   return(list(plot_power=fig.optim.power, plot_alpha = fig.alpha, opt_r_split = opt_r, opt_power = -opt$value, opt_alpha_split= ct_opt_alpha))
 }
+
+
+
+
+
 
