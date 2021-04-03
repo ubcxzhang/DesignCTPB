@@ -27,7 +27,7 @@ Config/reticulate:
     )
   )
 Packaged: 2020-10-26 06:43:24 UTC; yitaolu
-Imports: reticulate, mnormt, fields, magrittr,plotly, dplyr
+Imports: reticulate, mnormt, fields, magrittr,plotly
 Suggests: 
     knitr,
     rmarkdown
