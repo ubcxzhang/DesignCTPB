@@ -56,8 +56,8 @@ For the time consuming problem, we load the pre-run data and show the results be
 
 ### Weak biomarker effect
 
-Fitted TPS surface of the optimal power: http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.4
-Fitted TPS surface of the optimal $\alpha$ : http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.3
+Fitted TPS surface of the optimal power: https://www.math.uvic.ca/~xuekui/HDDesign/Figure1.4
+Fitted TPS surface of the optimal $\alpha$ : https://www.math.uvic.ca/~xuekui/HDDesign/Figure1.3
 
 ```{r}
 data(ctpbw, package = "DesignCTPB")
@@ -102,9 +102,9 @@ opt_alpha
 
 ### Strong biomarker effect
 
-Fitted TPS surface of the optimal power: http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.6
+Fitted TPS surface of the optimal power: https://www.math.uvic.ca/~xuekui/HDDesign/Figure1.6
 
-Fitted TPS surface of the optimal $\alpha$: http://www.math.uvic.ca/~xuekui/HDDesign/Figure1.5
+Fitted TPS surface of the optimal $\alpha$: https://www.math.uvic.ca/~xuekui/HDDesign/Figure1.5
 
 ```{r}
 data(ctpbs, package = "DesignCTPB")
